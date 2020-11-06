@@ -1,3 +1,4 @@
+# WORK IN PROGRESS
 # Registro de Horas
 (Quinta-Feira 05 de Novembro de 2020) Start 19:32, End 22:19
  - `Criando estrutura inical do projeto`
