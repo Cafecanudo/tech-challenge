@@ -13,8 +13,10 @@ Como o projeto já tem uma definição de negócio, vamos começar pela implemen
 > - Cada nova instituição de saúde deve receber 20 moedas pixeon para salvar os exames e recuperá-los.
 > - Resultado: ![](../resources/coverage-usecase-createhealthcare.PNG)
 
-
-
+#### Create a Exam
+ - Criar um Exame
+> Requisitos funcionais:
+> - Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde
 
 
 #

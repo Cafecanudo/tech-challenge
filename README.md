@@ -3,7 +3,14 @@
 (Quinta-Feira 05 de Novembro de 2020) Start 19:32, End 22:19
  - `Criando estrutura inical do projeto`
  - `Criando teste de caso de uso "CreateHealthcare`
- ![](resources/coverage-usecase-createhealthcare.PNG)
+ 
+ (Sexta-Feira 06 de Novembro de 2020) Start 18:57, End 22:37
+ - `Criar um Exame`
+ - `Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde`
+ 
+  ![](resources/coverage-tests.PNG)
+ #### Coverage
+  ![](resources/coverage-usecase-createhealthcare.PNG)
  
 # Pixeon-core
 Esse projeto seguindo práticas de Clean Architecture foi colocado toda a parte de domínio de negócio da empresa

@@ -48,7 +48,12 @@ public class HealthcareInstitution {
         this.coins = coins;
     }
 
+    public void subtractCoins(BigDecimal value) {
+        this.setCoins(this.coins.subtract(value));
+    }
+
     public static class Builder {
+
         private int id;
         private String name;
         private String cnpj;
