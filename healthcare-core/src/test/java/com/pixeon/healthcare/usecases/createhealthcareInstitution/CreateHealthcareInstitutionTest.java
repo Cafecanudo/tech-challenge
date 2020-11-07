@@ -8,22 +8,35 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.Answer;
+
+import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class CreateHealthcareInstitutionTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+    @Mock
+    private HealthcareInstitutionService institutionService;
 
     private CreateHealthcareInstitution createHealthcareInstitution;
 
     @Before
     public void setUp() {
-        this.createHealthcareInstitution = new CreateHealthcareInstitution(healthcareInstitution -> {
-            healthcareInstitution.setId(1);
-            return healthcareInstitution;
+        MockitoAnnotations.openMocks(this);
+        this.createHealthcareInstitution = new CreateHealthcareInstitution(institutionService);
+        when(institutionService.save(any(HealthcareInstitution.class))).thenAnswer((Answer<HealthcareInstitution>) invocationOnMock -> {
+            HealthcareInstitution institution = invocationOnMock.getArgument(0);
+            institution.setId(1);
+            institution.setCoins(new BigDecimal(20));
+            return institution;
         });
     }
 
@@ -77,5 +90,4 @@ public class CreateHealthcareInstitutionTest {
 
         assertEquals("CNPJ da instituição é inválido!", exception.getMessage());
     }
-
 }
