@@ -1,6 +1,7 @@
 package com.pixeon.healthcare.models;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class HealthcareInstitution {
 
@@ -52,6 +53,13 @@ public class HealthcareInstitution {
         this.setCoins(this.coins.subtract(value));
     }
 
+    public boolean examOwner(ExamModel exam) {
+        if (exam == null) {
+            return false;
+        }
+        return equals(exam.getHealthcareInstitution());
+    }
+
     public static class Builder {
 
         private int id;
@@ -82,5 +90,18 @@ public class HealthcareInstitution {
         public HealthcareInstitution build() {
             return new HealthcareInstitution(id, name, cnpj, coins);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HealthcareInstitution that = (HealthcareInstitution) o;
+        return Objects.equals(cnpj, that.cnpj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cnpj);
     }
 }
