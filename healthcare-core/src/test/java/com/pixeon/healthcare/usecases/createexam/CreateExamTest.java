@@ -1,16 +1,14 @@
 package com.pixeon.healthcare.usecases.createexam;
 
+import com.pixeon.healthcare.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.models.ExamModel;
 import com.pixeon.healthcare.models.HealthcareInstitution;
 import com.pixeon.healthcare.models.builders.ExamModelBuilder;
 import com.pixeon.healthcare.models.enums.Gender;
-import com.pixeon.healthcare.usecases.applicationconfig.ApplicationConfigService;
-import com.pixeon.healthcare.usecases.createexam.CreateExam;
-import com.pixeon.healthcare.usecases.createexam.ExamService;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createexam.exception.NoBalanceToCreateExamException;
-import com.pixeon.healthcare.usecases.createexam.exception.NoFoundHealthcareInstituitionException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -22,12 +20,10 @@ import java.math.BigDecimal;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 public class CreateExamTest {
 
-    private static final int HEALTHCARE_INSTITUTION_ID = 1;
     private static final BigDecimal ONE_COIN_FOR_CREATE_EXAM = new BigDecimal(1);
     private CreateExam createExam;
     @Mock
@@ -42,8 +38,7 @@ public class CreateExamTest {
         MockitoAnnotations.openMocks(this);
         this.createExam = new CreateExam(examService, institutionService, applicationConfigService);
         when(applicationConfigService.getValueCreateExam()).thenReturn(ONE_COIN_FOR_CREATE_EXAM);
-        when(institutionService.get(anyInt())).thenReturn(new HealthcareInstitution.Builder()
-                .id(1)
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(18.58))
@@ -67,7 +62,7 @@ public class CreateExamTest {
                 .withProcedureName("Mentoplastia")
                 .build();
 
-        examModel = this.createExam.create(HEALTHCARE_INSTITUTION_ID, examModel);
+        examModel = this.createExam.create(examModel);
         assertEquals(1, examModel.getId(), 0.1);
         assertEquals(17.58, examModel.getHealthcareInstitution().getCoins().doubleValue(), 0.1);
     }
@@ -77,13 +72,15 @@ public class CreateExamTest {
         ExamModel examModel = ExamModelBuilder.Builder().build();
 
         CreateExamFieldEmptyException exception = assertThrows(CreateExamFieldEmptyException.class,
-                () -> this.createExam.create(HEALTHCARE_INSTITUTION_ID, examModel));
+                () -> this.createExam.create(examModel));
         assertEquals("Existem informações obrigatórios do exame que não foram preenchidas!", exception.getMessage());
     }
 
     @Test
     public void shouldNotCreateExamWhenHealthcareInstituitionHasNoBalance() {
-        when(institutionService.get(anyInt())).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+                .name("Instituição de Saúde")
+                .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(0.0))
                 .build());
 
@@ -97,13 +94,15 @@ public class CreateExamTest {
                 .build();
 
         NoBalanceToCreateExamException exception = assertThrows(NoBalanceToCreateExamException.class,
-                () -> this.createExam.create(HEALTHCARE_INSTITUTION_ID, examModel));
+                () -> this.createExam.create(examModel));
         assertEquals("Instituição não possui saldo para criar exame!", exception.getMessage());
     }
 
     @Test
     public void shouldNotCreateExamWhenHealthInstitutionDoesNotHaveEnoughBalance() {
-        when(institutionService.get(anyInt())).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+                .name("Instituição de Saúde")
+                .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(0.7))
                 .build());
 
@@ -117,16 +116,16 @@ public class CreateExamTest {
                 .build();
 
         NoBalanceToCreateExamException exception = assertThrows(NoBalanceToCreateExamException.class,
-                () -> this.createExam.create(HEALTHCARE_INSTITUTION_ID, examModel));
+                () -> this.createExam.create(examModel));
         assertEquals("Instituição não possui saldo para criar exame!", exception.getMessage());
     }
 
     @Test
     public void shouldNotCreateExamWhenCantFindAnInstitution() {
-        when(institutionService.get(anyInt())).thenReturn(null);
+        when(institutionService.getCurrentInstitution()).thenReturn(null);
 
-        NoFoundHealthcareInstituitionException exception = assertThrows(NoFoundHealthcareInstituitionException.class,
-                () -> this.createExam.create(HEALTHCARE_INSTITUTION_ID, new ExamModel()));
-        assertEquals("Não foi encontrada a instituição informada!", exception.getMessage());
+        InstitutionNotFoundException exception = assertThrows(InstitutionNotFoundException.class,
+                () -> this.createExam.create(new ExamModel()));
+        assertEquals("Instituição não foi encontrada!", exception.getMessage());
     }
 }
