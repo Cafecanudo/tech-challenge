@@ -3,7 +3,7 @@ package com.pixeon.healthcare.usecases.createhealthcareInstitution;
 public class ValidateCNPJ {
 
     public static boolean isCNPJ(String cnpj) {
-        if (!cnpj.substring(0, 1).equals("")) {
+        if (cnpj != null && !cnpj.trim().equals("")) {
             try {
                 cnpj = removeCharacters(cnpj);
                 int sum = 0;
