@@ -1,12 +1,12 @@
 package com.pixeon.healthcare.usecases.createexam;
 
+import com.pixeon.healthcare.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.models.ExamModel;
 import com.pixeon.healthcare.models.HealthcareInstitution;
-import com.pixeon.healthcare.usecases.applicationconfig.ApplicationConfigService;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createexam.exception.NoBalanceToCreateExamException;
-import com.pixeon.healthcare.usecases.createexam.exception.NoFoundHealthcareInstituitionException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
 
 import java.math.BigDecimal;
 
@@ -23,8 +23,8 @@ public class CreateExam {
         this.applicationConfigService = applicationConfigService;
     }
 
-    public ExamModel create(int healthcareInstitutionId, ExamModel examModel) {
-        HealthcareInstitution institution = getHealthcareInstitution(healthcareInstitutionId);
+    public ExamModel create(ExamModel examModel) {
+        HealthcareInstitution institution = getCurrentInstitution();
         examModel.setHealthcareInstitution(institution);
 
         validExamField(examModel);
@@ -32,16 +32,16 @@ public class CreateExam {
         return examService.save(examModel);
     }
 
-    private HealthcareInstitution getHealthcareInstitution(int healthcareInstitutionId) {
-        HealthcareInstitution institution = institutionService.get(healthcareInstitutionId);
-        if (institution == null){
-            throw new NoFoundHealthcareInstituitionException();
+    private HealthcareInstitution getCurrentInstitution() {
+        HealthcareInstitution examInstitution = institutionService.getCurrentInstitution();
+        if (examInstitution == null) {
+            throw new InstitutionNotFoundException();
         }
-        return institution;
+        return examInstitution;
     }
 
     private void validExamField(ExamModel examModel) {
-        if (examModel.isEmptyFields()){
+        if (examModel.isEmptyFields()) {
             throw new CreateExamFieldEmptyException();
         }
     }
