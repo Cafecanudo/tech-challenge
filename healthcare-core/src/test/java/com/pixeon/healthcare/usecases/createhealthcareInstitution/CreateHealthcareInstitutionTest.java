@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 
 public class CreateHealthcareInstitutionTest {
 
+    public static final double VALUE_FOR_NEW_INSTITUTION = 20;
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
     @Mock
@@ -35,9 +36,11 @@ public class CreateHealthcareInstitutionTest {
         when(institutionService.save(any(HealthcareInstitution.class))).thenAnswer((Answer<HealthcareInstitution>) invocationOnMock -> {
             HealthcareInstitution institution = invocationOnMock.getArgument(0);
             institution.setId(1);
-            institution.setCoins(new BigDecimal(20));
+            institution.setCoins(new BigDecimal(VALUE_FOR_NEW_INSTITUTION));
             return institution;
         });
+
+        when(institutionService.getValueForNewInstitution()).thenReturn(new BigDecimal(VALUE_FOR_NEW_INSTITUTION));
     }
 
     @Test
