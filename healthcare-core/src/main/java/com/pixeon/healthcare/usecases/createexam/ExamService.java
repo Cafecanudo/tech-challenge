@@ -1,6 +1,6 @@
 package com.pixeon.healthcare.usecases.createexam;
 
-import com.pixeon.healthcare.models.ExamModel;
+import com.pixeon.healthcare.domain.models.ExamModel;
 
 public interface ExamService {
 

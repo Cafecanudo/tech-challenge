@@ -1,11 +1,11 @@
 package com.pixeon.healthcare.usecases.updateexam;
 
-import com.pixeon.healthcare.exception.InstitutionDoesNotOwnExamException;
-import com.pixeon.healthcare.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.models.ExamModel;
-import com.pixeon.healthcare.models.HealthcareInstitution;
-import com.pixeon.healthcare.models.builders.ExamModelBuilder;
-import com.pixeon.healthcare.models.enums.Gender;
+import com.pixeon.healthcare.domain.exception.InstitutionDoesNotOwnExamException;
+import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
+import com.pixeon.healthcare.domain.models.ExamModel;
+import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
+import com.pixeon.healthcare.domain.models.enums.Gender;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;

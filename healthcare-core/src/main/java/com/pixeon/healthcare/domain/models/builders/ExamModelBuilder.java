@@ -1,8 +1,8 @@
-package com.pixeon.healthcare.models.builders;
+package com.pixeon.healthcare.domain.models.builders;
 
-import com.pixeon.healthcare.models.ExamModel;
-import com.pixeon.healthcare.models.HealthcareInstitution;
-import com.pixeon.healthcare.models.enums.Gender;
+import com.pixeon.healthcare.domain.models.ExamModel;
+import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.enums.Gender;
 
 public final class ExamModelBuilder {
 

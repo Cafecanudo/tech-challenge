@@ -1,7 +1,7 @@
-package com.pixeon.healthcare.models;
+package com.pixeon.healthcare.domain.models;
 
-import com.pixeon.healthcare.models.builders.ExamModelBuilder;
-import com.pixeon.healthcare.models.enums.Gender;
+import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
+import com.pixeon.healthcare.domain.models.enums.Gender;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;

@@ -1,9 +1,9 @@
 package com.pixeon.healthcare.usecases.deleteexam;
 
-import com.pixeon.healthcare.exception.InstitutionDoesNotOwnExamException;
-import com.pixeon.healthcare.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.models.ExamModel;
-import com.pixeon.healthcare.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.exception.InstitutionDoesNotOwnExamException;
+import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
+import com.pixeon.healthcare.domain.models.ExamModel;
+import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
 import com.pixeon.healthcare.usecases.deleteexam.exception.ExamNotFoundException;

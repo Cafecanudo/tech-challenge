@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.models;
+package com.pixeon.healthcare.domain.models;
 
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.ValidateCNPJ;
 

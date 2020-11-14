@@ -1,6 +1,6 @@
 package com.pixeon.healthcare.usecases.createhealthcareInstitution;
 
-import com.pixeon.healthcare.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJEmptyException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJInvalidException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.NameCantEmptyException;

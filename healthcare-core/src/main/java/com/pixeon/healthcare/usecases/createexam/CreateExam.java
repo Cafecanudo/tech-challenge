@@ -1,8 +1,8 @@
 package com.pixeon.healthcare.usecases.createexam;
 
-import com.pixeon.healthcare.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.models.ExamModel;
-import com.pixeon.healthcare.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
+import com.pixeon.healthcare.domain.models.ExamModel;
+import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createexam.exception.NoBalanceToCreateExamException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;

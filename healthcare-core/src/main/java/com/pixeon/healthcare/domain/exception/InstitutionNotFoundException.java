@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.exception;
+package com.pixeon.healthcare.domain.exception;
 
 public class InstitutionNotFoundException extends RuntimeException {
 
