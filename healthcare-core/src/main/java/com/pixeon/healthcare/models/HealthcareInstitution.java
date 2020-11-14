@@ -1,5 +1,7 @@
 package com.pixeon.healthcare.models;
 
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.ValidateCNPJ;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -60,6 +62,31 @@ public class HealthcareInstitution {
         return equals(exam.getHealthcareInstitution());
     }
 
+    public boolean isEmptyOrBlank() {
+        return getName() == null || getName().isEmpty();
+    }
+
+    public boolean isEmptyOrBlankCNPJ() {
+        return getCnpj() == null || getCnpj().isEmpty();
+    }
+
+    public boolean isValidCNPJ() {
+        return ValidateCNPJ.isCNPJ(getCnpj());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HealthcareInstitution that = (HealthcareInstitution) o;
+        return Objects.equals(cnpj, that.cnpj);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cnpj);
+    }
+
     public static class Builder {
 
         private int id;
@@ -90,18 +117,5 @@ public class HealthcareInstitution {
         public HealthcareInstitution build() {
             return new HealthcareInstitution(id, name, cnpj, coins);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        HealthcareInstitution that = (HealthcareInstitution) o;
-        return Objects.equals(cnpj, that.cnpj);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cnpj);
     }
 }

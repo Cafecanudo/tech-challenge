@@ -22,17 +22,17 @@ public class CreateHealthcareInstitution {
     }
 
     private void validName(HealthcareInstitution healthcareInstitution) {
-        if (healthcareInstitution.getName() == null || healthcareInstitution.getName().isEmpty()) {
+        if (healthcareInstitution.isEmptyOrBlank()) {
             throw new NameCantEmptyException();
         }
     }
 
     private void validCNPJ(HealthcareInstitution healthcareInstitution) {
-        if (healthcareInstitution.getCnpj() == null || healthcareInstitution.getCnpj().isEmpty()) {
+        if (healthcareInstitution.isEmptyOrBlankCNPJ()) {
             throw new CNPJEmptyException();
         }
 
-        if (!ValidateCNPJ.isCNPJ(healthcareInstitution.getCnpj())) {
+        if (!healthcareInstitution.isValidCNPJ()) {
             throw new CNPJInvalidException();
         }
     }
