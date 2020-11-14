@@ -1,12 +1,23 @@
 # WORK IN PROGRESS
 # Registro de Horas
+Textos redigidos com teclado padrão En-us.
 (Quinta-Feira 05 de Novembro de 2020) Start 19:32, End 22:19
  - `Criando estrutura inical do projeto`
  - `Criando teste de caso de uso "CreateHealthcare`
  
  (Sexta-Feira 06 de Novembro de 2020) Start 18:57, End 22:37
- - `Criar um Exame`
- - `Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde`
+  - `Criar um Exame`
+  - `Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde`
+ 
+ (Sabádo 04 de Novembro de 2020) Start 09:13, End 10:47
+  - `Atualizar um Exame`
+  - `Deve permitir atualizar um exame se todos os dados obrigatórios estiverem preenchidos, incluindo ID.`
+   
+ (Sabádo 04 de Novembro de 2020) Start 11:04, End 15:09
+  - `Deletear um Exame`
+  - `Deve permitir deletar um exame quando existir o exame.`
+  - `OBS: Algunas alteracoes no componete de ExameService foram necessarios para evitar duplicidade de codigos`
+  - `Atualizacoes em testes para melhor cobertura foram feitos`      
  
   ![](resources/coverage-tests.PNG)
  #### Coverage

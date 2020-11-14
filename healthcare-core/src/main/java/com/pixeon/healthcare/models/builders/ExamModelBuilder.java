@@ -1,6 +1,7 @@
 package com.pixeon.healthcare.models.builders;
 
 import com.pixeon.healthcare.models.ExamModel;
+import com.pixeon.healthcare.models.HealthcareInstitution;
 import com.pixeon.healthcare.models.enums.Gender;
 
 public final class ExamModelBuilder {
@@ -12,6 +13,7 @@ public final class ExamModelBuilder {
     private String physicianName;
     private int physicianCRM;
     private String procedureName;
+    private HealthcareInstitution healthcareInstitution;
 
     private ExamModelBuilder() {
     }
@@ -55,6 +57,11 @@ public final class ExamModelBuilder {
         return this;
     }
 
+    public ExamModelBuilder withHealthcareInstitution(HealthcareInstitution healthcareInstitution) {
+        this.healthcareInstitution = healthcareInstitution;
+        return this;
+    }
+
     public ExamModel build() {
         ExamModel examModel = new ExamModel();
         examModel.setId(id);
@@ -64,6 +71,7 @@ public final class ExamModelBuilder {
         examModel.setPhysicianName(physicianName);
         examModel.setPhysicianCRM(physicianCRM);
         examModel.setProcedureName(procedureName);
+        examModel.setHealthcareInstitution(healthcareInstitution);
         return examModel;
     }
 }
