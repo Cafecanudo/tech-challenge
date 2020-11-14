@@ -5,4 +5,6 @@ import java.math.BigDecimal;
 public interface ApplicationConfigService {
 
     BigDecimal getValueCreateExam();
+
+    BigDecimal getValueForNewInstitution();
 }
