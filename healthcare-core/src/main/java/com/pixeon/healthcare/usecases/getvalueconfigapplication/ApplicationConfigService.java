@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.usecases.applicationconfig;
+package com.pixeon.healthcare.usecases.getvalueconfigapplication;
 
 import java.math.BigDecimal;
 

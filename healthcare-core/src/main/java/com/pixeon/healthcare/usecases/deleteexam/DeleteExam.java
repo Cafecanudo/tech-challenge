@@ -1,29 +1,28 @@
-package com.pixeon.healthcare.usecases.updateexam;
+package com.pixeon.healthcare.usecases.deleteexam;
 
 import com.pixeon.healthcare.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.models.ExamModel;
 import com.pixeon.healthcare.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
-import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
-import com.pixeon.healthcare.usecases.updateexam.exception.IdCantNullException;
+import com.pixeon.healthcare.usecases.deleteexam.exception.ExamNotFoundException;
 
-public class UpdateExam {
+public class DeleteExam {
 
     private ExamService examService;
     private HealthcareInstitutionService institutionService;
 
-    public UpdateExam(HealthcareInstitutionService institutionService, ExamService examService) {
-        this.institutionService = institutionService;
+    public DeleteExam(HealthcareInstitutionService institutionService, ExamService examService) {
         this.examService = examService;
+        this.institutionService = institutionService;
     }
 
-    public ExamModel update(ExamModel examModel) {
-        valid(examModel);
-        HealthcareInstitution examInstitution = getInstitutionOfExam(examModel);
+    public boolean delete(int examId) {
+        ExamModel exam = getExam(examId);
+        HealthcareInstitution examInstitution = getInstitutionOfExam(exam);
         checkIfInstitutionOwnsExam(examInstitution);
-        return examService.update(examModel);
+        return examService.delete(exam);
     }
 
     private HealthcareInstitution getInstitutionOfExam(ExamModel examModel) {
@@ -41,12 +40,11 @@ public class UpdateExam {
         }
     }
 
-    private void valid(ExamModel examModel) {
-        if (examModel.isNullId()) {
-            throw new IdCantNullException();
+    private ExamModel getExam(int examId) {
+        ExamModel examModel = this.examService.getExameById(examId);
+        if (examModel == null) {
+            throw new ExamNotFoundException();
         }
-        if (examModel.isEmptyFields()) {
-            throw new CreateExamFieldEmptyException();
-        }
+        return examModel;
     }
 }

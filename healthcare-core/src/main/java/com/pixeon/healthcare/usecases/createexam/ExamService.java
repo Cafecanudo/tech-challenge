@@ -7,4 +7,8 @@ public interface ExamService {
     ExamModel save(ExamModel examModel);
 
     ExamModel update(ExamModel examModel);
+
+    boolean delete(ExamModel examModel);
+
+    ExamModel getExameById(int examId);
 }

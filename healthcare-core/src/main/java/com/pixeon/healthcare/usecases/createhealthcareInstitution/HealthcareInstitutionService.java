@@ -6,5 +6,7 @@ public interface HealthcareInstitutionService {
 
     HealthcareInstitution save(HealthcareInstitution healthcareInstitution);
 
-    HealthcareInstitution get(int healthcareInstitutionId);
+    HealthcareInstitution getCurrentInstitution();
+
+    HealthcareInstitution getInstitutionForExamBy(Integer examId);
 }
