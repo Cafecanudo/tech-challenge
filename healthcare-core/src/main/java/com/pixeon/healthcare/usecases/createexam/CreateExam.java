@@ -41,15 +41,7 @@ public class CreateExam {
     }
 
     private void validExamField(ExamModel examModel) {
-        if (examModel.getPatientName() == null ||
-                examModel.getPatientName().isEmpty() ||
-                examModel.getProcedureName() == null ||
-                examModel.getProcedureName().isEmpty() ||
-                examModel.getPhysicianName() == null ||
-                examModel.getPhysicianName().isEmpty() ||
-                examModel.getPatientAge() == null ||
-                examModel.getPatientGender() == null ||
-                examModel.getPhysicianCRM() == null) {
+        if (examModel.isEmptyFields()){
             throw new CreateExamFieldEmptyException();
         }
     }

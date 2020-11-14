@@ -18,5 +18,10 @@ Como o projeto já tem uma definição de negócio, vamos começar pela implemen
 > Requisitos funcionais:
 > - Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde
 
+#### Update a Exam
+ - Atualizar um Exame
+> Requisitos funcionais:
+> - Deve permitir atualizar um exame se todos os dados obrigatórios estiverem preenchidos, incluindo ID.
+
 
 #
