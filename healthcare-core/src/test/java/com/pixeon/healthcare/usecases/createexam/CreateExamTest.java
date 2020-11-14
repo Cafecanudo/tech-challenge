@@ -73,7 +73,7 @@ public class CreateExamTest {
     }
 
     @Test
-    public void shouldNotCreateExamWhenExistsFieldEmpty() {
+    public void shouldNotCreateExamWhenExamModelIsInvalid() {
         ExamModel examModel = ExamModelBuilder.Builder().build();
 
         CreateExamFieldEmptyException exception = assertThrows(CreateExamFieldEmptyException.class,

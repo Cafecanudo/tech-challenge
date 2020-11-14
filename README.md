@@ -11,6 +11,7 @@
   ![](resources/coverage-tests.PNG)
  #### Coverage
   ![](resources/coverage-usecase-createhealthcare.PNG)
+  ![](resources/coverage-packages.PNG)
  
 # Pixeon-core
 Esse projeto seguindo práticas de Clean Architecture foi colocado toda a parte de domínio de negócio da empresa
