@@ -9,27 +9,41 @@ Textos redigidos com teclado padrão En-us.
   - `Criar um Exame`
   - `Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde`
  
- (Sabádo 14 de Novembro de 2020) Start 09:13, End 10:47
+ (Sábado 14 de Novembro de 2020) Start 09:13, End 10:47
   - `Atualizar um Exame`
   - `Deve permitir atualizar um exame se todos os dados obrigatórios estiverem preenchidos, incluindo ID.`
   - `Uma instituição de saúde não deve ter acesso a atualizar um exame que pertença a outra instituição de saúde.`
    
- (Sabádo 14 de Novembro de 2020) Start 11:04, End 15:09
+ (Sábado 14 de Novembro de 2020) Start 11:04, End 15:09
   - `Deletear um Exame`
   - `Deve permitir deletar um exame quando existir o exame.`
   - `Uma instituição de saúde não deve ter acesso a deletar um exame que pertença a outra instituição de saúde.`
   - `OBS: Algunas alteracoes no componente de ExameService foram necessarios para evitar duplicidade de codigos`
   - `Atualizacoes em testes para melhor cobertura foram feitos` 
      
- (Sabádo 14 de Novembro de 2020) Start 18:34, End 22:41
+ (Sábado 14 de Novembro de 2020) Start 18:34, End 22:41
   - `Obter um exame`
   - `Uma instituição de saúde não deve ter acesso a um exame que pertença a outra instituição de saúde.`
-  - `Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.` 
+  - `Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.`
   
-  ![](resources/coverage-tests.PNG)
+ (Domingo 15 de Novembro de 2020) Start 09:01, End  
+  - `Modelos proposta de arquitetura`
+  - `Criando de dados`
+  
+  ![](resources/coverage-tests.PNG)<br/>
  #### Coverage
   ![](resources/coverage-usecase-createhealthcare.PNG)
   ![](resources/coverage-packages.PNG)
+ 
+ 
+ ### Arquitetura
+ Como proposta e seguindo o desafio criei um modelo de arquiterura para nossa aplicação escalavel.<br/>
+ ![](resources/architecture.PNG) 
+ 
+ ### Diagrama de dados
+ Para nosso desafio escolhemos H2 como nossa base de dados, isso para facilitar no momento que os avaliadores possam
+ testar a aplicacao, outro ponto, que vai no ajudar em nossos teste de integração.<br/>
+ ![](resources/diagrama-dados.PNG)
  
 # Pixeon-core
 Esse projeto seguindo práticas de Clean Architecture foi colocado toda a parte de domínio de negócio da empresa
@@ -48,54 +62,4 @@ e casos de uso.
 
 
 
-
-
-
-
-#
-
-
-# Pixeon Tech Challenge
-
-Your goal will be to build a REST API which is going to be used as part of pixeon’s solution. The API will take control over the healthcare institution registration as well as the exams ingest. 
-
-The main resources of your solution should be `HealthcareInstitution` and  `Exam`. They are composed by the following properties: 
-
-``HealthcareInstitution:  Name, CNPJ``  
-``Exam: HealthcareInstitution, PatientName, PatientAge, PatientGender, PhysicianName, PhysicianCRM, ProcedureName``
-
-You have to provide a solution that contains the follow operations: 
-
-  * Create a Healthcare
-  * Create an exam
-  * Update an exam
-  * Delete an exam 
-  * Get an exam by its identifier
-
-## Functional requirements
-
- * Each new healthcare institution must receive 20 pixeon coins to save exams and retrieve them.
- * Every exam successfully created must charge 1 pixeon coin from the healthcare institution's bugdet
- * You must charge 1 pixeon coin from the budget when one healthcare institution retrieves an exame but if the institution retrieves the same exame more than once you must not charge it, which means you have to charge only the first access to the exam.
- * A healthcare institution must not have access to an exam that belongs to other healthcare institution.
- * A healthcare institution is not allowed to create or get an exam when running out of budget. 
- * We are expecting you to build the solution using Spring Framework and we also do not care about the database or any other tool that you might choose.
-
-
-## Non-functional requirements
- 
- * More than one instance of the application will serve HTTP requests at the same time.
- * Think others developers will have to work on your solution, so make sure they can easily run the application locally. Please be nice to them  =)  
-
-## Deliverable
-
-A git repo hosted wherever you like but if you prefer just compress the git repo directory and send it back to us.
-
-## Important notes
-
-* Keep in your mind that you do not need to build all the features. We strongly recommend you to focus on quality over quantity, you will be evaluated by the quality of your solution.  
-* If you think something is really necessary but you did not have enough time to do, please let us know and explain how you would do it. Understanding how you think is important to us 
-
-
-### Enjoy yourself coding :)
 
