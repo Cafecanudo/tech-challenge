@@ -98,6 +98,22 @@ public class GetExamByIdTest {
     }
 
     @Test
+    public void shouldChargeOnlyOnceWhenExamIsRecovered() {
+        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+                .name("Instituição de Saúde")
+                .cnpj("42.094.340/0001-79")
+                .coins(new BigDecimal(15.78))
+                .build());
+
+        ExamModel exam = createExam();
+        exam.setBilled(true);
+        when(examService.getExameById(anyInt())).thenReturn(exam);
+
+        ExamModel examModel = this.getExamById.get(EXAM_ID);
+        assertEquals(15.78, examModel.getHealthcareInstitution().getCoins().doubleValue(), 0.1);
+    }
+
+    @Test
     public void verifyIfUpdateIsCallingWhenConsultingExam() {
         this.getExamById.get(EXAM_ID);
         verify(healthcareInstitutionService, times(1)).update(any());

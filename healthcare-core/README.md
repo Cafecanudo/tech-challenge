@@ -5,7 +5,6 @@
 ## Use Cases  
 Como o projeto já tem uma definição de negócio, vamos começar pela implementação dos casos de uso do negócio usado a prática TDD.  
   
-  
 #### Create a Healthcare
 - Permite criar uma nova instituição e adicionar COINs para negociações.
 
@@ -22,6 +21,19 @@ Como o projeto já tem uma definição de negócio, vamos começar pela implemen
  - Atualizar um Exame
 > Requisitos funcionais:
 > - Deve permitir atualizar um exame se todos os dados obrigatórios estiverem preenchidos, incluindo ID.
+
+#### Delete a Exam
+ - Deletar um Exame
+> Requisitos funcionais:
+> - Uma instituição de saúde não deve ter acesso a deletar um exame que pertença a outra instituição de saúde.`
+> - OBS: Algunas alteracoes no componente de ExameService foram necessarios para evitar duplicidade de codigos`
+> - Atualizacoes em testes para melhor cobertura foram feitos`
+
+#### Get a Exam
+ - Obter um Exame
+> Requisitos funcionais:
+> - Uma instituição de saúde não deve ter acesso a um exame que pertença a outra instituição de saúde.`
+> - Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.`
 
 
 #

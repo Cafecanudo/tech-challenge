@@ -21,13 +21,11 @@ Textos redigidos com teclado padrão En-us.
   - `OBS: Algunas alteracoes no componente de ExameService foram necessarios para evitar duplicidade de codigos`
   - `Atualizacoes em testes para melhor cobertura foram feitos` 
      
- (Sabádo 14 de Novembro de 2020) Start 18:34, End 
+ (Sabádo 14 de Novembro de 2020) Start 18:34, End 22:41
   - `Obter um exame`
   - `Uma instituição de saúde não deve ter acesso a um exame que pertença a outra instituição de saúde.`
   - `Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.` 
   
-       
- 
   ![](resources/coverage-tests.PNG)
  #### Coverage
   ![](resources/coverage-usecase-createhealthcare.PNG)

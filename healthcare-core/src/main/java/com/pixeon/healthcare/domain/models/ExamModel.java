@@ -12,6 +12,7 @@ public class ExamModel {
     private String physicianName;
     private Integer physicianCRM;
     private String procedureName;
+    private boolean billed;
 
     public Integer getId() {
         return id;
@@ -75,6 +76,14 @@ public class ExamModel {
 
     public void setProcedureName(String procedureName) {
         this.procedureName = procedureName;
+    }
+
+    public boolean isBilled() {
+        return billed;
+    }
+
+    public void setBilled(boolean billed) {
+        this.billed = billed;
     }
 
     public boolean isNullId() {
