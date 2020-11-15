@@ -1,6 +1,5 @@
 package com.pixeon.healthcare.usecases.createexam;
 
-import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.domain.models.ExamModel;
 import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
@@ -20,7 +19,7 @@ import java.math.BigDecimal;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class CreateExamTest {
 
@@ -77,7 +76,7 @@ public class CreateExamTest {
     }
 
     @Test
-    public void shouldNotCreateExamWhenHealthcareInstituitionHasNoBalance() {
+    public void shouldNotCreateExamWhenHealthcareInstitutionHasNoBalance() {
         when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
@@ -121,11 +120,17 @@ public class CreateExamTest {
     }
 
     @Test
-    public void shouldNotCreateExamWhenCantFindAnInstitution() {
-        when(institutionService.getCurrentInstitution()).thenReturn(null);
+    public void verifyWhenCreateExamItsCallingUpdateInstitutionWithNewValueAfterCreateExam() {
+        ExamModel examModel = ExamModelBuilder.Builder()
+                .withPatientName("Wellton S. Barros")
+                .withPatientAge(35)
+                .withPatientGender(Gender.MALE)
+                .withPhysicianName("Laiane Carvalho de Oliveira")
+                .withPhysicianCRM(981651)
+                .withProcedureName("Mentoplastia")
+                .build();
 
-        InstitutionNotFoundException exception = assertThrows(InstitutionNotFoundException.class,
-                () -> this.createExam.create(new ExamModel()));
-        assertEquals("Instituição não foi encontrada!", exception.getMessage());
+        this.createExam.create(examModel);
+        verify(institutionService, times(1)).update(any());
     }
 }

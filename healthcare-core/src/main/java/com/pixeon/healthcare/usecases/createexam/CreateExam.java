@@ -1,6 +1,5 @@
 package com.pixeon.healthcare.usecases.createexam;
 
-import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.domain.models.ExamModel;
 import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
 
 public class CreateExam {
 
-    private static final double WITHOUT_BALANCE = 0.0;
     private ExamService examService;
     private HealthcareInstitutionService institutionService;
     private ApplicationConfigService applicationConfigService;
@@ -24,20 +22,16 @@ public class CreateExam {
     }
 
     public ExamModel create(ExamModel examModel) {
-        HealthcareInstitution institution = getCurrentInstitution();
+        BigDecimal valueCreateExam = applicationConfigService.getValueCreateExam();
+        HealthcareInstitution institution = institutionService.getCurrentInstitution();
         examModel.setHealthcareInstitution(institution);
 
         validExamField(examModel);
-        chargeValueForCreateExam(institution);
-        return examService.save(examModel);
-    }
+        checkIfInstitutionHaveEnoughBalance(valueCreateExam, institution);
+        chargeValueForConsultingExam(valueCreateExam, institution);
+        updateInstitutionAfterConsultingExam(institution, examModel);
 
-    private HealthcareInstitution getCurrentInstitution() {
-        HealthcareInstitution examInstitution = institutionService.getCurrentInstitution();
-        if (examInstitution == null) {
-            throw new InstitutionNotFoundException();
-        }
-        return examInstitution;
+        return examService.save(examModel);
     }
 
     private void validExamField(ExamModel examModel) {
@@ -46,19 +40,15 @@ public class CreateExam {
         }
     }
 
-    private void chargeValueForCreateExam(HealthcareInstitution institution) {
-        BigDecimal valueForCreateExam = applicationConfigService.getValueCreateExam();
-        checkBalance(institution, valueForCreateExam);
-        institution.subtractCoins(valueForCreateExam);
+    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueCreateExam, HealthcareInstitution currentInstitution) {
+        new CheckBalanceInstitution<>(new NoBalanceToCreateExamException()).check(currentInstitution, valueCreateExam);
     }
 
-    private void checkBalance(HealthcareInstitution institution, BigDecimal valueForCreateExam) {
-        if (institution.getCoins().doubleValue() <= WITHOUT_BALANCE) {
-            throw new NoBalanceToCreateExamException();
-        }
+    private void updateInstitutionAfterConsultingExam(HealthcareInstitution institution, ExamModel exam) {
+        institutionService.update(institution);
+    }
 
-        if (institution.getCoins().doubleValue() < valueForCreateExam.doubleValue()) {
-            throw new NoBalanceToCreateExamException();
-        }
+    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitution institution) {
+        institution.subtractCoins(valueCreateExam);
     }
 }
