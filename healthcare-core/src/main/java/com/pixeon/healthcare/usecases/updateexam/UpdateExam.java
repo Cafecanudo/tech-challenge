@@ -20,7 +20,7 @@ public class UpdateExam {
     }
 
     public ExamModel update(ExamModel examModel) {
-        valid(examModel);
+        validFields(examModel);
         HealthcareInstitution examInstitution = getInstitutionOfExam(examModel);
         checkIfInstitutionOwnsExam(examInstitution);
         return examService.update(examModel);
@@ -41,7 +41,7 @@ public class UpdateExam {
         }
     }
 
-    private void valid(ExamModel examModel) {
+    private void validFields(ExamModel examModel) {
         if (examModel.isNullId()) {
             throw new IdCantNullException();
         }

@@ -2,8 +2,6 @@ package com.pixeon.healthcare.usecases.createhealthcareInstitution;
 
 import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 
-import java.math.BigDecimal;
-
 public interface HealthcareInstitutionService {
 
     HealthcareInstitution save(HealthcareInstitution healthcareInstitution);
@@ -12,5 +10,5 @@ public interface HealthcareInstitutionService {
 
     HealthcareInstitution getInstitutionForExamBy(Integer examId);
 
-    BigDecimal getValueForNewInstitution();
+    void update(HealthcareInstitution institution);
 }

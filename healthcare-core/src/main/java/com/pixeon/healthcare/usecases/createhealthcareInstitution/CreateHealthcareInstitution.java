@@ -4,12 +4,15 @@ import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJEmptyException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJInvalidException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.NameCantEmptyException;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
 
 public class CreateHealthcareInstitution {
 
     private HealthcareInstitutionService healthcareInstitutionService;
+    private ApplicationConfigService applicationConfigService;
 
-    public CreateHealthcareInstitution(HealthcareInstitutionService healthcareInstitutionService) {
+    public CreateHealthcareInstitution(ApplicationConfigService applicationConfigService, HealthcareInstitutionService healthcareInstitutionService) {
+        this.applicationConfigService = applicationConfigService;
         this.healthcareInstitutionService = healthcareInstitutionService;
     }
 
@@ -17,7 +20,7 @@ public class CreateHealthcareInstitution {
         validName(healthcareInstitution);
         validCNPJ(healthcareInstitution);
 
-        healthcareInstitution.setCoins(healthcareInstitutionService.getValueForNewInstitution());
+        healthcareInstitution.setCoins(applicationConfigService.getValueForNewInstitution());
         return healthcareInstitutionService.save(healthcareInstitution);
     }
 

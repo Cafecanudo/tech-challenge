@@ -4,6 +4,7 @@ import com.pixeon.healthcare.domain.models.HealthcareInstitution;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJEmptyException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.CNPJInvalidException;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.exception.NameCantEmptyException;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,13 +27,15 @@ public class CreateHealthcareInstitutionTest {
     public ExpectedException expectedException = ExpectedException.none();
     @Mock
     private HealthcareInstitutionService institutionService;
+    @Mock
+    private ApplicationConfigService applicationConfigService;
 
     private CreateHealthcareInstitution createHealthcareInstitution;
 
     @Before
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.createHealthcareInstitution = new CreateHealthcareInstitution(institutionService);
+        this.createHealthcareInstitution = new CreateHealthcareInstitution(applicationConfigService, institutionService);
         when(institutionService.save(any(HealthcareInstitution.class))).thenAnswer((Answer<HealthcareInstitution>) invocationOnMock -> {
             HealthcareInstitution institution = invocationOnMock.getArgument(0);
             institution.setId(1);
@@ -40,7 +43,7 @@ public class CreateHealthcareInstitutionTest {
             return institution;
         });
 
-        when(institutionService.getValueForNewInstitution()).thenReturn(new BigDecimal(VALUE_FOR_NEW_INSTITUTION));
+        when(applicationConfigService.getValueForNewInstitution()).thenReturn(new BigDecimal(VALUE_FOR_NEW_INSTITUTION));
     }
 
     @Test
