@@ -9,6 +9,7 @@
 
     <modules>
         <module>healthcare-core</module>
+        <module>config-service</module>
     </modules>
 
     <build>
