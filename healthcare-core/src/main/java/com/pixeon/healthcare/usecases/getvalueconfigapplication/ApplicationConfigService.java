@@ -7,4 +7,6 @@ public interface ApplicationConfigService {
     BigDecimal getValueCreateExam();
 
     BigDecimal getValueForNewInstitution();
+
+    BigDecimal getValueForConsultingExam();
 }

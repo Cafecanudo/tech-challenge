@@ -9,15 +9,24 @@ Textos redigidos com teclado padrão En-us.
   - `Criar um Exame`
   - `Cada exame criado com sucesso deve cobrar 1 moeda pixeon do bugdet da instituição de saúde`
  
- (Sabádo 04 de Novembro de 2020) Start 09:13, End 10:47
+ (Sabádo 14 de Novembro de 2020) Start 09:13, End 10:47
   - `Atualizar um Exame`
   - `Deve permitir atualizar um exame se todos os dados obrigatórios estiverem preenchidos, incluindo ID.`
+  - `Uma instituição de saúde não deve ter acesso a atualizar um exame que pertença a outra instituição de saúde.`
    
- (Sabádo 04 de Novembro de 2020) Start 11:04, End 15:09
+ (Sabádo 14 de Novembro de 2020) Start 11:04, End 15:09
   - `Deletear um Exame`
   - `Deve permitir deletar um exame quando existir o exame.`
-  - `OBS: Algunas alteracoes no componete de ExameService foram necessarios para evitar duplicidade de codigos`
-  - `Atualizacoes em testes para melhor cobertura foram feitos`      
+  - `Uma instituição de saúde não deve ter acesso a deletar um exame que pertença a outra instituição de saúde.`
+  - `OBS: Algunas alteracoes no componente de ExameService foram necessarios para evitar duplicidade de codigos`
+  - `Atualizacoes em testes para melhor cobertura foram feitos` 
+     
+ (Sabádo 14 de Novembro de 2020) Start 18:34, End 
+  - `Obter um exame`
+  - `Uma instituição de saúde não deve ter acesso a um exame que pertença a outra instituição de saúde.`
+  - `Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.` 
+  
+       
  
   ![](resources/coverage-tests.PNG)
  #### Coverage

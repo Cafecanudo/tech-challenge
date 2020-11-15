@@ -9,4 +9,6 @@ public interface HealthcareInstitutionService {
     HealthcareInstitution getCurrentInstitution();
 
     HealthcareInstitution getInstitutionForExamBy(Integer examId);
+
+    void update(HealthcareInstitution institution);
 }
