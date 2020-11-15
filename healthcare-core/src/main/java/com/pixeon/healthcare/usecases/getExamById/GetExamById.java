@@ -28,12 +28,14 @@ public class GetExamById {
         HealthcareInstitution currentInstitution = institutionService.getCurrentInstitution();
 
         ExamModel exam = examService.getExameById(examId);
-        checkIfInstitutionOwnsExam(currentInstitution, exam.getHealthcareInstitution());
-        checkIfInstitutionHaveEnoughBalance(valueForConsultingExam, currentInstitution);
-        chargeValueForConsultingExam(valueForConsultingExam, currentInstitution);
-        updateInstitutionAfterConsultingExam(currentInstitution, exam);
-
+        if (!exam.isBilled()) {
+            checkIfInstitutionOwnsExam(currentInstitution, exam.getHealthcareInstitution());
+            checkIfInstitutionHaveEnoughBalance(valueForConsultingExam, currentInstitution);
+            chargeValueForConsultingExam(valueForConsultingExam, currentInstitution);
+            updateInstitutionAfterConsultingExam(currentInstitution, exam);
+        }
         exam.setHealthcareInstitution(currentInstitution);
+        exam.setBilled(true);
         return exam;
     }
 
@@ -48,9 +50,7 @@ public class GetExamById {
     }
 
     private void updateInstitutionAfterConsultingExam(HealthcareInstitution institution, ExamModel exam) {
-//        chargeValueForConsultingExam(institution);
         institutionService.update(institution);
-//        exam.setHealthcareInstitution(institution);
     }
 
     private void chargeValueForConsultingExam(BigDecimal valueForConsultingExam, HealthcareInstitution institution) {
