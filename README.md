@@ -26,9 +26,10 @@ Textos redigidos com teclado padrão En-us.
   - `Uma instituição de saúde não deve ter acesso a um exame que pertença a outra instituição de saúde.`
   - `Uma instituição de saúde não tem permissão para criar ou fazer um exame quando está sem orçamento.`
   
- (Domingo 15 de Novembro de 2020) Start 09:01, End  
+ (Domingo 15 de Novembro de 2020) Start 09:01, End 11:56 
   - `Modelos proposta de arquitetura`
   - `Criando de dados`
+  - `Criando servico de descoberta de servico`
   
   ![](resources/coverage-tests.PNG)<br/>
  #### Coverage
