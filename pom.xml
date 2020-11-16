@@ -10,6 +10,7 @@
     <modules>
         <module>healthcare-core</module>
         <module>config-service</module>
+        <module>discovery-service</module>
     </modules>
 
     <build>
