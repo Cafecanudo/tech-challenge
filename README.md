@@ -30,6 +30,11 @@ Textos redigidos com teclado padrão En-us.
   - `Modelos proposta de arquitetura`
   - `Criando de dados`
   - `Criando servico de descoberta de servico`
+   
+ (Segunda 16 de Novembro de 2020) Start 18:37, End 19:38 
+  - `Criando serviço que fornece informações de configuração do sistema`
+ 
+
   
   ![](resources/coverage-tests.PNG)<br/>
  #### Coverage
