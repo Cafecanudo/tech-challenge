@@ -1,8 +1,8 @@
 package com.pixeon.healthcare.domain.config.exception;
 
-public class JaExisteCNPJException extends RuntimeException {
+public class CNPJJaExisteException extends RuntimeException {
 
-    public JaExisteCNPJException() {
+    public CNPJJaExisteException() {
         super("Já existe CNPJ cadastrado!");
     }
 }

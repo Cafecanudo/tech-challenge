@@ -99,7 +99,6 @@
             <groupId>com.pixeon.healthcare</groupId>
             <artifactId>healthcare-core</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

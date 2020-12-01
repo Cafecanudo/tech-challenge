@@ -4,6 +4,7 @@ import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.usecases.createhealthcareInstitution.CreateHealthcareInstitutionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,6 @@ public class CreateHealthcareInstitutionController implements CreateHealthcareIn
     @PostMapping
     public ResponseEntity<HealthcareInstitutionDTO> create(@RequestBody HealthcareInstitutionDTO healthcareInstitutionDTO) {
         log.info("Criando nova instituição de saúde...");
-        return ResponseEntity.ok(service.create(healthcareInstitutionDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.create(healthcareInstitutionDTO));
     }
 }
