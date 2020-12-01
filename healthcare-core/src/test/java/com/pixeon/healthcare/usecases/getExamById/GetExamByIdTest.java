@@ -2,13 +2,13 @@ package com.pixeon.healthcare.usecases.getExamById;
 
 import com.pixeon.healthcare.domain.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.models.ExamModel;
-import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
 import com.pixeon.healthcare.domain.models.enums.Gender;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
-import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionFactory;
 import com.pixeon.healthcare.usecases.getExamById.exception.NoBalanceToConsultingExamException;
-import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,17 +29,17 @@ public class GetExamByIdTest {
     @Mock
     private ExamService examService;
     @Mock
-    private ApplicationConfigService applicationConfigService;
+    private ApplicationConfigFactory applicationConfigFactory;
     @Mock
-    private HealthcareInstitutionService healthcareInstitutionService;
+    private HealthcareInstitutionFactory healthcareInstitutionFactory;
 
     @Before
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.getExamById = new GetExamById(applicationConfigService, examService, healthcareInstitutionService);
+        this.getExamById = new GetExamById(applicationConfigFactory, examService, healthcareInstitutionFactory);
         when(examService.getExameById(anyInt())).thenReturn(createExam());
-        when(applicationConfigService.getValueForConsultingExam()).thenReturn(VALUE_FOR_CONSULTING_EXAM);
-        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(applicationConfigFactory.getValueForConsultingExam()).thenReturn(VALUE_FOR_CONSULTING_EXAM);
+        when(healthcareInstitutionFactory.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(20.0))
@@ -61,7 +61,7 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldNotReturnExamFromAnotherInstitution() {
-        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(healthcareInstitutionFactory.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Outra Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build());
@@ -72,7 +72,7 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldReturnExceptionWhenInstitutionNotHaveEnoughBalance() {
-        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(healthcareInstitutionFactory.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(1.2))
@@ -84,7 +84,7 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldReturnNewBalanceAfterConsultationCharge() {
-        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(healthcareInstitutionFactory.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(15.78))
@@ -99,7 +99,7 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldChargeOnlyOnceWhenExamIsRecovered() {
-        when(healthcareInstitutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(healthcareInstitutionFactory.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(15.78))
@@ -116,7 +116,7 @@ public class GetExamByIdTest {
     @Test
     public void verifyIfUpdateIsCallingWhenConsultingExam() {
         this.getExamById.get(EXAM_ID);
-        verify(healthcareInstitutionService, times(1)).update(any());
+        verify(healthcareInstitutionFactory, times(1)).update(any());
     }
 
     private ExamModel createExam() {
@@ -132,8 +132,8 @@ public class GetExamByIdTest {
                 .build();
     }
 
-    private HealthcareInstitution createInstitution() {
-        return new HealthcareInstitution.Builder()
+    private HealthcareInstitutionDTO createInstitution() {
+        return new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(20.0))

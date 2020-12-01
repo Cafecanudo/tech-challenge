@@ -3,12 +3,12 @@ package com.pixeon.healthcare.usecases.updateexam;
 import com.pixeon.healthcare.domain.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.domain.models.ExamModel;
-import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
 import com.pixeon.healthcare.domain.models.enums.Gender;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
-import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionFactory;
 import com.pixeon.healthcare.usecases.updateexam.exception.IdCantNullException;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class UpdateExamTest {
     @Mock
     private ExamService examService;
     @Mock
-    private HealthcareInstitutionService institutionService;
+    private HealthcareInstitutionFactory institutionService;
 
     @Before
     public void setup() {
@@ -36,11 +36,11 @@ public class UpdateExamTest {
         this.updateExam = new UpdateExam(institutionService, examService);
         when(examService.update(any())).thenAnswer(
                 (Answer<ExamModel>) invocationOnMock -> invocationOnMock.getArgument(0));
-        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build());
-        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build());
@@ -116,7 +116,7 @@ public class UpdateExamTest {
                 .withProcedureName("Mentoplastia")
                 .build();
 
-        when(institutionService.getInstitutionForExamBy(examModel.getId())).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getInstitutionForExamBy(examModel.getId())).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build());

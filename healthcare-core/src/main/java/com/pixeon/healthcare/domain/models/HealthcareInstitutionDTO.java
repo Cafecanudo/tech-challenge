@@ -5,14 +5,17 @@ import com.pixeon.healthcare.usecases.createhealthcareInstitution.ValidateCNPJ;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-public class HealthcareInstitution {
+public class HealthcareInstitutionDTO {
 
     private int id;
     private String name;
     private String cnpj;
     private BigDecimal coins;
 
-    public HealthcareInstitution(int id, String name, String cnpj, BigDecimal coins) {
+    public HealthcareInstitutionDTO() {
+    }
+
+    public HealthcareInstitutionDTO(int id, String name, String cnpj, BigDecimal coins) {
         this.id = id;
         this.name = name;
         this.cnpj = cnpj;
@@ -78,7 +81,7 @@ public class HealthcareInstitution {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HealthcareInstitution that = (HealthcareInstitution) o;
+        HealthcareInstitutionDTO that = (HealthcareInstitutionDTO) o;
         return Objects.equals(cnpj, that.cnpj);
     }
 
@@ -114,8 +117,8 @@ public class HealthcareInstitution {
             return this;
         }
 
-        public HealthcareInstitution build() {
-            return new HealthcareInstitution(id, name, cnpj, coins);
+        public HealthcareInstitutionDTO build() {
+            return new HealthcareInstitutionDTO(id, name, cnpj, coins);
         }
     }
 }

@@ -5,7 +5,7 @@ import com.pixeon.healthcare.domain.models.enums.Gender;
 public class ExamModel {
 
     private Integer id;
-    private HealthcareInstitution healthcareInstitution;
+    private HealthcareInstitutionDTO healthcareInstitutionDTO;
     private String patientName;
     private Integer patientAge;
     private Gender patientGender;
@@ -22,12 +22,12 @@ public class ExamModel {
         this.id = id;
     }
 
-    public HealthcareInstitution getHealthcareInstitution() {
-        return healthcareInstitution;
+    public HealthcareInstitutionDTO getHealthcareInstitution() {
+        return healthcareInstitutionDTO;
     }
 
-    public void setHealthcareInstitution(HealthcareInstitution healthcareInstitution) {
-        this.healthcareInstitution = healthcareInstitution;
+    public void setHealthcareInstitution(HealthcareInstitutionDTO healthcareInstitutionDTO) {
+        this.healthcareInstitutionDTO = healthcareInstitutionDTO;
     }
 
     public String getPatientName() {

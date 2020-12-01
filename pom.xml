@@ -12,6 +12,7 @@
         <module>config-service</module>
         <module>discovery-service</module>
         <module>healthcare-application-service</module>
+        <module>healthcare-institution-service</module>
     </modules>
 
     <build>

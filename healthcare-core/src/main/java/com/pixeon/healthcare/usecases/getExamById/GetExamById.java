@@ -2,30 +2,30 @@ package com.pixeon.healthcare.usecases.getExamById;
 
 import com.pixeon.healthcare.domain.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.models.ExamModel;
-import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.usecases.createexam.CheckBalanceInstitution;
 import com.pixeon.healthcare.usecases.createexam.ExamService;
-import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionFactory;
 import com.pixeon.healthcare.usecases.getExamById.exception.NoBalanceToConsultingExamException;
-import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigFactory;
 
 import java.math.BigDecimal;
 
 public class GetExamById {
 
     private ExamService examService;
-    private ApplicationConfigService applicationConfigService;
-    private HealthcareInstitutionService institutionService;
+    private ApplicationConfigFactory applicationConfigFactory;
+    private HealthcareInstitutionFactory institutionService;
 
-    public GetExamById(ApplicationConfigService applicationConfigService, ExamService examService, HealthcareInstitutionService institutionService) {
-        this.applicationConfigService = applicationConfigService;
+    public GetExamById(ApplicationConfigFactory applicationConfigFactory, ExamService examService, HealthcareInstitutionFactory institutionService) {
+        this.applicationConfigFactory = applicationConfigFactory;
         this.examService = examService;
         this.institutionService = institutionService;
     }
 
     public ExamModel get(int examId) {
-        BigDecimal valueForConsultingExam = applicationConfigService.getValueForConsultingExam();
-        HealthcareInstitution currentInstitution = institutionService.getCurrentInstitution();
+        BigDecimal valueForConsultingExam = applicationConfigFactory.getValueForConsultingExam();
+        HealthcareInstitutionDTO currentInstitution = institutionService.getCurrentInstitution();
 
         ExamModel exam = examService.getExameById(examId);
         if (!exam.isBilled()) {
@@ -39,21 +39,21 @@ public class GetExamById {
         return exam;
     }
 
-    private void checkIfInstitutionOwnsExam(HealthcareInstitution currentInstitution, HealthcareInstitution examInstitution) {
+    private void checkIfInstitutionOwnsExam(HealthcareInstitutionDTO currentInstitution, HealthcareInstitutionDTO examInstitution) {
         if (!currentInstitution.equals(examInstitution)) {
             throw new InstitutionDoesNotOwnExamException();
         }
     }
 
-    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueForConsultingExam, HealthcareInstitution currentInstitution) {
+    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueForConsultingExam, HealthcareInstitutionDTO currentInstitution) {
         new CheckBalanceInstitution<>(new NoBalanceToConsultingExamException()).check(currentInstitution, valueForConsultingExam);
     }
 
-    private void updateInstitutionAfterConsultingExam(HealthcareInstitution institution, ExamModel exam) {
+    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionDTO institution, ExamModel exam) {
         institutionService.update(institution);
     }
 
-    private void chargeValueForConsultingExam(BigDecimal valueForConsultingExam, HealthcareInstitution institution) {
+    private void chargeValueForConsultingExam(BigDecimal valueForConsultingExam, HealthcareInstitutionDTO institution) {
         institution.subtractCoins(valueForConsultingExam);
     }
 }

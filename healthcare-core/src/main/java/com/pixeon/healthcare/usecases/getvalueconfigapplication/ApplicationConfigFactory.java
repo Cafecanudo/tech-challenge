@@ -2,11 +2,11 @@ package com.pixeon.healthcare.usecases.getvalueconfigapplication;
 
 import java.math.BigDecimal;
 
-public interface ApplicationConfigService {
+public interface ApplicationConfigFactory {
 
     BigDecimal getValueCreateExam();
 
-    BigDecimal getValueForNewInstitution();
+    BigDecimal getValueForNewHealthcareInstitution();
 
     BigDecimal getValueForConsultingExam();
 }

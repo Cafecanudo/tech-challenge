@@ -1,29 +1,29 @@
 package com.pixeon.healthcare.usecases.createexam;
 
 import com.pixeon.healthcare.domain.models.ExamModel;
-import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createexam.exception.NoBalanceToCreateExamException;
-import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
-import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionFactory;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigFactory;
 
 import java.math.BigDecimal;
 
 public class CreateExam {
 
     private ExamService examService;
-    private HealthcareInstitutionService institutionService;
-    private ApplicationConfigService applicationConfigService;
+    private HealthcareInstitutionFactory institutionService;
+    private ApplicationConfigFactory applicationConfigFactory;
 
-    public CreateExam(ExamService examService, HealthcareInstitutionService institutionService, ApplicationConfigService applicationConfigService) {
+    public CreateExam(ExamService examService, HealthcareInstitutionFactory institutionService, ApplicationConfigFactory applicationConfigFactory) {
         this.examService = examService;
         this.institutionService = institutionService;
-        this.applicationConfigService = applicationConfigService;
+        this.applicationConfigFactory = applicationConfigFactory;
     }
 
     public ExamModel create(ExamModel examModel) {
-        BigDecimal valueCreateExam = applicationConfigService.getValueCreateExam();
-        HealthcareInstitution institution = institutionService.getCurrentInstitution();
+        BigDecimal valueCreateExam = applicationConfigFactory.getValueCreateExam();
+        HealthcareInstitutionDTO institution = institutionService.getCurrentInstitution();
         examModel.setHealthcareInstitution(institution);
 
         validExamField(examModel);
@@ -40,15 +40,15 @@ public class CreateExam {
         }
     }
 
-    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueCreateExam, HealthcareInstitution currentInstitution) {
+    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueCreateExam, HealthcareInstitutionDTO currentInstitution) {
         new CheckBalanceInstitution<>(new NoBalanceToCreateExamException()).check(currentInstitution, valueCreateExam);
     }
 
-    private void updateInstitutionAfterConsultingExam(HealthcareInstitution institution, ExamModel exam) {
+    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionDTO institution, ExamModel exam) {
         institutionService.update(institution);
     }
 
-    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitution institution) {
+    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitutionDTO institution) {
         institution.subtractCoins(valueCreateExam);
     }
 }

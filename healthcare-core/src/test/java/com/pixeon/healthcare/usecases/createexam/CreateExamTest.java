@@ -1,13 +1,13 @@
 package com.pixeon.healthcare.usecases.createexam;
 
 import com.pixeon.healthcare.domain.models.ExamModel;
-import com.pixeon.healthcare.domain.models.HealthcareInstitution;
+import com.pixeon.healthcare.domain.models.HealthcareInstitutionDTO;
 import com.pixeon.healthcare.domain.models.builders.ExamModelBuilder;
 import com.pixeon.healthcare.domain.models.enums.Gender;
 import com.pixeon.healthcare.usecases.createexam.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.usecases.createexam.exception.NoBalanceToCreateExamException;
-import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionService;
-import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigService;
+import com.pixeon.healthcare.usecases.createhealthcareInstitution.HealthcareInstitutionFactory;
+import com.pixeon.healthcare.usecases.getvalueconfigapplication.ApplicationConfigFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -28,16 +28,16 @@ public class CreateExamTest {
     @Mock
     private ExamService examService;
     @Mock
-    private HealthcareInstitutionService institutionService;
+    private HealthcareInstitutionFactory institutionService;
     @Mock
-    private ApplicationConfigService applicationConfigService;
+    private ApplicationConfigFactory applicationConfigFactory;
 
     @Before
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        this.createExam = new CreateExam(examService, institutionService, applicationConfigService);
-        when(applicationConfigService.getValueCreateExam()).thenReturn(ONE_COIN_FOR_CREATE_EXAM);
-        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        this.createExam = new CreateExam(examService, institutionService, applicationConfigFactory);
+        when(applicationConfigFactory.getValueCreateExam()).thenReturn(ONE_COIN_FOR_CREATE_EXAM);
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(18.58))
@@ -77,7 +77,7 @@ public class CreateExamTest {
 
     @Test
     public void shouldNotCreateExamWhenHealthcareInstitutionHasNoBalance() {
-        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(0.0))
@@ -99,7 +99,7 @@ public class CreateExamTest {
 
     @Test
     public void shouldNotCreateExamWhenHealthInstitutionDoesNotHaveEnoughBalance() {
-        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitution.Builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(new HealthcareInstitutionDTO.Builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coins(new BigDecimal(0.7))
