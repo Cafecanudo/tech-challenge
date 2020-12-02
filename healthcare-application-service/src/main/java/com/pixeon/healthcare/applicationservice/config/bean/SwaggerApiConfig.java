@@ -1,4 +1,4 @@
-package com.pixeon.healthcare;
+package com.pixeon.healthcare.applicationservice.config.bean;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

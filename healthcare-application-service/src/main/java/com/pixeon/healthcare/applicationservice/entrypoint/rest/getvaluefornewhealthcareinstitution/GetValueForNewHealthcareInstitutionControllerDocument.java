@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.usecase.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

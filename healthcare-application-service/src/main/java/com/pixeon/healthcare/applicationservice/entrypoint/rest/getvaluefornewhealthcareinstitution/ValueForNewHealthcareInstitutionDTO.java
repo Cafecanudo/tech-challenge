@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.usecase.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
 
 import lombok.Builder;
 import lombok.Data;

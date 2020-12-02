@@ -1,17 +1,17 @@
-package com.pixeon.healthcare.usecase.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
 
-import com.pixeon.healthcare.domain.entities.Configuration;
-import com.pixeon.healthcare.infraestructure.repositories.ApplicationRepository;
+import com.pixeon.healthcare.applicationservice.config.repository.ApplicationRepository;
+import com.pixeon.healthcare.applicationservice.config.repository.entity.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetValueForNewHealthcareInstitutionService {
+public class GetValueForNewHealthcareInstitutionPresenter {
 
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    public GetValueForNewHealthcareInstitutionService(ApplicationRepository applicationRepository) {
+    public GetValueForNewHealthcareInstitutionPresenter(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;
     }
 

@@ -1,4 +1,4 @@
-package com.pixeon.healthcare;
+package com.pixeon.healthcare.applicationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

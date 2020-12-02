@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.usecase.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class GetValueForNewHealthcareInstitutionController implements GetValueForNewHealthcareInstitutionControllerDocument {
 
     @Autowired
-    private GetValueForNewHealthcareInstitutionService getValueForNewHealthcareInstitutionService;
+    private GetValueForNewHealthcareInstitutionPresenter getValueForNewHealthcareInstitutionPresenter;
 
     @Override
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ValueForNewHealthcareInstitutionDTO> get() {
         log.info("Obtido valor para criar nova instituição de saúde.");
-        return ResponseEntity.ok(getValueForNewHealthcareInstitutionService.get());
+        return ResponseEntity.ok(getValueForNewHealthcareInstitutionPresenter.get());
     }
 }
