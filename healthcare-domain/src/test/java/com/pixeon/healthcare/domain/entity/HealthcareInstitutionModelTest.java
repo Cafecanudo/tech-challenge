@@ -1,22 +1,24 @@
 package com.pixeon.healthcare.domain.entity;
 
 import com.pixeon.healthcare.domain.config.enums.GenderEnum;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class HealthcareInstitutionTest {
+public class HealthcareInstitutionModelTest {
 
     @Test
     public void shouldReturnTrueWhereCNPJEquals() {
-        HealthcareInstitution institution1 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution1 = HealthcareInstitutionModel.builder()
                 .id(1)
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build();
 
-        HealthcareInstitution institution2 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution2 = HealthcareInstitutionModel.builder()
                 .id(2)
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
@@ -27,13 +29,13 @@ public class HealthcareInstitutionTest {
 
     @Test
     public void shouldReturnTrueWhereCNPJDiferents() {
-        HealthcareInstitution institution1 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution1 = HealthcareInstitutionModel.builder()
                 .id(1)
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build();
 
-        HealthcareInstitution institution2 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution2 = HealthcareInstitutionModel.builder()
                 .id(1)
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
@@ -44,13 +46,13 @@ public class HealthcareInstitutionTest {
 
     @Test
     public void shouldReturnTrueWhenInstitutionIsOwnerExam() {
-        HealthcareInstitution institution1 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution1 = HealthcareInstitutionModel.builder()
                 .id(1)
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build();
 
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -58,18 +60,18 @@ public class HealthcareInstitutionTest {
                 .physicianName("Laiane Carvalho de Oliveira")
                 .physicianCRM(981651)
                 .procedureName("Mentoplastia")
-                .healthcareInstitution(HealthcareInstitution.builder()
+                .healthcareInstitutionModel(HealthcareInstitutionModel.builder()
                         .name("Instituição de Saúde")
                         .cnpj("56.227.555/0001-25")
                         .build())
                 .build();
 
-        assertTrue(institution1.examOwner(exam));
+        assertTrue(institution1.examOwner(examModel));
     }
 
     @Test
     public void shouldReturnExceptionWhenExamIsNullWhenCheckOwner() {
-        HealthcareInstitution institution1 = HealthcareInstitution.builder()
+        HealthcareInstitutionModel institution1 = HealthcareInstitutionModel.builder()
                 .id(1)
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")

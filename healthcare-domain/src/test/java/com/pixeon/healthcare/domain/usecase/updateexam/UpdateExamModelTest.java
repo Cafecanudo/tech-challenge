@@ -5,8 +5,8 @@ import com.pixeon.healthcare.domain.config.exception.CreateExamFieldEmptyExcepti
 import com.pixeon.healthcare.domain.config.exception.IdCantNullException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.domain.entity.Exam;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.updateexam.impl.UpdateExamImpl;
@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-public class UpdateExamTest {
+public class UpdateExamModelTest {
 
     private UpdateExam updateExam;
     @Mock
@@ -35,12 +35,12 @@ public class UpdateExamTest {
         MockitoAnnotations.openMocks(this);
         this.updateExam = new UpdateExamImpl(institutionService, examGateway);
         when(examGateway.update(any())).thenAnswer(
-                (Answer<Exam>) invocationOnMock -> invocationOnMock.getArgument(0));
-        when(institutionService.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+                (Answer<ExamModel>) invocationOnMock -> invocationOnMock.getArgument(0));
+        when(institutionService.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build());
-        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitution.builder()
+        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build());
@@ -48,7 +48,7 @@ public class UpdateExamTest {
 
     @Test
     public void shouldUpdateExam() {
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -58,12 +58,12 @@ public class UpdateExamTest {
                 .procedureName("Mentoplastia")
                 .build();
 
-        this.updateExam.update(exam);
+        this.updateExam.update(examModel);
     }
 
     @Test
     public void shouldNotUpdateExamWhenIDIsNull() {
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
                 .patientGender(GenderEnum.MALE)
@@ -73,22 +73,22 @@ public class UpdateExamTest {
                 .build();
 
         IdCantNullException exception = assertThrows(IdCantNullException.class,
-                () -> this.updateExam.update(exam));
+                () -> this.updateExam.update(examModel));
         assertEquals("Id do exame não pode ser vazio!", exception.getMessage());
     }
 
     @Test
     public void shouldNotUpdateExamWhenExamModelIsInvalid() {
-        Exam exam = Exam.builder().id(1).build();
+        ExamModel examModel = ExamModel.builder().id(1).build();
 
         CreateExamFieldEmptyException exception = assertThrows(CreateExamFieldEmptyException.class,
-                () -> this.updateExam.update(exam));
+                () -> this.updateExam.update(examModel));
         assertEquals("Existem informações obrigatórios do exame que não foram preenchidas!", exception.getMessage());
     }
 
     @Test
     public void shouldNotUpdateExamWhenInstitutionNotFound() {
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -100,13 +100,13 @@ public class UpdateExamTest {
 
         when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(null);
 
-        InstitutionNotFoundException exception = assertThrows(InstitutionNotFoundException.class, () -> this.updateExam.update(exam));
+        InstitutionNotFoundException exception = assertThrows(InstitutionNotFoundException.class, () -> this.updateExam.update(examModel));
         assertEquals("Instituição não foi encontrada!", exception.getMessage());
     }
 
     @Test
     public void shouldNotUpdateExamWhenExamDoesNotBelongInstitution() {
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -116,18 +116,18 @@ public class UpdateExamTest {
                 .procedureName("Mentoplastia")
                 .build();
 
-        when(institutionService.getInstitutionForExamBy(exam.getId())).thenReturn(HealthcareInstitution.builder()
+        when(institutionService.getInstitutionForExamBy(examModel.getId())).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build());
 
-        InstitutionDoesNotOwnExamException exception = assertThrows(InstitutionDoesNotOwnExamException.class, () -> this.updateExam.update(exam));
+        InstitutionDoesNotOwnExamException exception = assertThrows(InstitutionDoesNotOwnExamException.class, () -> this.updateExam.update(examModel));
         assertEquals("Exame não pertence a atual instituição!", exception.getMessage());
     }
 
     @Test
     public void shouldUpdateExamWhenExamBelongsInstitution() {
-        Exam exam = Exam.builder()
+        ExamModel examModel = ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -137,7 +137,7 @@ public class UpdateExamTest {
                 .procedureName("Mentoplastia")
                 .build();
 
-        this.updateExam.update(exam);
+        this.updateExam.update(examModel);
     }
 
 }

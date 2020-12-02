@@ -3,8 +3,8 @@ package com.pixeon.healthcare.domain.usecase.getExamById;
 import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToConsultingExamException;
-import com.pixeon.healthcare.domain.entity.Exam;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.getExamById.impl.GetExamByIdImpl;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-public class GetExamByIdTest {
+public class GetExamModelByIdTest {
 
     private static final int EXAM_ID = 1;
     private static final BigDecimal VALUE_FOR_CONSULTING_EXAM = new BigDecimal(4.78);
@@ -39,7 +39,7 @@ public class GetExamByIdTest {
         this.getExamById = new GetExamByIdImpl(applicationConfigGateway, examGateway, healthcareInstitutionGateway);
         when(examGateway.getExameById(anyInt())).thenReturn(createExam());
         when(applicationConfigGateway.getValueForConsultingExam()).thenReturn(VALUE_FOR_CONSULTING_EXAM);
-        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coin(new BigDecimal(20.0))
@@ -48,20 +48,20 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldReturnExam() {
-        Exam exam = this.getExamById.get(EXAM_ID);
+        ExamModel examModel = this.getExamById.get(EXAM_ID);
 
-        assertEquals(1, exam.getId(), 0.1);
-        assertEquals("Wellton S. Barros", exam.getPatientName());
-        assertEquals(35, exam.getPatientAge(), 0.1);
-        assertEquals(GenderEnum.MALE, exam.getPatientGender());
-        assertEquals("Laiane Carvalho de Oliveira", exam.getPhysicianName());
-        assertEquals(981651, exam.getPhysicianCRM(), 0.1);
-        assertEquals("Mentoplastia", exam.getProcedureName());
+        assertEquals(1, examModel.getId(), 0.1);
+        assertEquals("Wellton S. Barros", examModel.getPatientName());
+        assertEquals(35, examModel.getPatientAge(), 0.1);
+        assertEquals(GenderEnum.MALE, examModel.getPatientGender());
+        assertEquals("Laiane Carvalho de Oliveira", examModel.getPhysicianName());
+        assertEquals(981651, examModel.getPhysicianCRM(), 0.1);
+        assertEquals("Mentoplastia", examModel.getProcedureName());
     }
 
     @Test
     public void shouldNotReturnExamFromAnotherInstitution() {
-        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Outra Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build());
@@ -72,7 +72,7 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldReturnExceptionWhenInstitutionNotHaveEnoughBalance() {
-        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coin(new BigDecimal(1.2))
@@ -84,33 +84,33 @@ public class GetExamByIdTest {
 
     @Test
     public void shouldReturnNewBalanceAfterConsultationCharge() {
-        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coin(new BigDecimal(15.78))
                 .build());
 
-        Exam exam = createExam();
+        ExamModel exam = createExam();
         when(examGateway.getExameById(anyInt())).thenReturn(exam);
 
-        Exam examModel = this.getExamById.get(EXAM_ID);
-        assertEquals(11.00, examModel.getHealthcareInstitution().getCoin().doubleValue(), 0.1);
+        ExamModel examModel = this.getExamById.get(EXAM_ID);
+        assertEquals(11.00, examModel.getHealthcareInstitutionModel().getCoin().doubleValue(), 0.1);
     }
 
     @Test
     public void shouldChargeOnlyOnceWhenExamIsRecovered() {
-        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(healthcareInstitutionGateway.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coin(new BigDecimal(15.78))
                 .build());
 
-        Exam exam = createExam();
+        ExamModel exam = createExam();
         exam.setBilled(true);
         when(examGateway.getExameById(anyInt())).thenReturn(exam);
 
-        Exam examModel = this.getExamById.get(EXAM_ID);
-        assertEquals(15.78, examModel.getHealthcareInstitution().getCoin().doubleValue(), 0.1);
+        ExamModel examModel = this.getExamById.get(EXAM_ID);
+        assertEquals(15.78, examModel.getHealthcareInstitutionModel().getCoin().doubleValue(), 0.1);
     }
 
     @Test
@@ -119,8 +119,8 @@ public class GetExamByIdTest {
         verify(healthcareInstitutionGateway, times(1)).update(any());
     }
 
-    private Exam createExam() {
-        return Exam.builder()
+    private ExamModel createExam() {
+        return ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -128,12 +128,12 @@ public class GetExamByIdTest {
                 .physicianName("Laiane Carvalho de Oliveira")
                 .physicianCRM(981651)
                 .procedureName("Mentoplastia")
-                .healthcareInstitution(createInstitution())
+                .healthcareInstitutionModel(createInstitution())
                 .build();
     }
 
-    private HealthcareInstitution createInstitution() {
-        return HealthcareInstitution.builder()
+    private HealthcareInstitutionModel createInstitution() {
+        return HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .coin(new BigDecimal(20.0))

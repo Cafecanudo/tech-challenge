@@ -1,9 +1,9 @@
 package com.pixeon.healthcare.domain.usecase.createhealthcareinstitution;
 
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 
 @FunctionalInterface
 public interface CreateHealthcareInstitutionUsecase {
 
-    HealthcareInstitution create(HealthcareInstitution healthcareInstitution);
+    HealthcareInstitutionModel create(HealthcareInstitutionModel healthcareInstitutionModel);
 }

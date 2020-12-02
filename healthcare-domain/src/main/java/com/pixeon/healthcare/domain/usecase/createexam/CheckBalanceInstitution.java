@@ -1,6 +1,6 @@
 package com.pixeon.healthcare.domain.usecase.createexam;
 
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 
 import java.math.BigDecimal;
 
@@ -13,18 +13,18 @@ public class CheckBalanceInstitution<T extends RuntimeException> {
         this.genericClass = genericClass;
     }
 
-    public void check(HealthcareInstitution institution, BigDecimal valueForCreateExam) {
+    public void check(HealthcareInstitutionModel institution, BigDecimal valueForCreateExam) {
         verifyIfZero(institution);
         verifyIfBalanceByReference(institution, valueForCreateExam);
     }
 
-    private void verifyIfBalanceByReference(HealthcareInstitution institution, BigDecimal valueForCreateExam) {
+    private void verifyIfBalanceByReference(HealthcareInstitutionModel institution, BigDecimal valueForCreateExam) {
         if (institution.getCoin().doubleValue() < valueForCreateExam.doubleValue()) {
             throw genericClass;
         }
     }
 
-    private void verifyIfZero(HealthcareInstitution institution) {
+    private void verifyIfZero(HealthcareInstitutionModel institution) {
         if (institution.getCoin().doubleValue() <= WITHOUT_BALANCE) {
             throw genericClass;
         }

@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.domain.entity;
+package com.pixeon.healthcare.domain.model;
 
 import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import lombok.Builder;
@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Exam {
+public class ExamModel {
 
     private Integer id;
-    private HealthcareInstitution healthcareInstitution;
+    private HealthcareInstitutionModel healthcareInstitutionModel;
     private String patientName;
     private Integer patientAge;
     private GenderEnum patientGender;

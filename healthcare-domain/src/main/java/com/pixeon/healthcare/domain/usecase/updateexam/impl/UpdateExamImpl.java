@@ -4,8 +4,8 @@ import com.pixeon.healthcare.domain.config.exception.CreateExamFieldEmptyExcepti
 import com.pixeon.healthcare.domain.config.exception.IdCantNullException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.domain.entity.Exam;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.updateexam.UpdateExam;
@@ -20,33 +20,33 @@ public class UpdateExamImpl implements UpdateExam {
         this.examGateway = examGateway;
     }
 
-    public Exam update(Exam exam) {
-        validFields(exam);
-        HealthcareInstitution examInstitution = getInstitutionOfExam(exam);
+    public ExamModel update(ExamModel examModel) {
+        validFields(examModel);
+        HealthcareInstitutionModel examInstitution = getInstitutionOfExam(examModel);
         checkIfInstitutionOwnsExam(examInstitution);
-        return examGateway.update(exam);
+        return examGateway.update(examModel);
     }
 
-    private HealthcareInstitution getInstitutionOfExam(Exam exam) {
-        HealthcareInstitution examInstitution = institutionService.getInstitutionForExamBy(exam.getId());
+    private HealthcareInstitutionModel getInstitutionOfExam(ExamModel examModel) {
+        HealthcareInstitutionModel examInstitution = institutionService.getInstitutionForExamBy(examModel.getId());
         if (examInstitution == null) {
             throw new InstitutionNotFoundException();
         }
         return examInstitution;
     }
 
-    private void checkIfInstitutionOwnsExam(HealthcareInstitution examInstitution) {
-        HealthcareInstitution currentInstitution = institutionService.getCurrentInstitution();
+    private void checkIfInstitutionOwnsExam(HealthcareInstitutionModel examInstitution) {
+        HealthcareInstitutionModel currentInstitution = institutionService.getCurrentInstitution();
         if (!currentInstitution.equals(examInstitution)) {
             throw new InstitutionDoesNotOwnExamException();
         }
     }
 
-    private void validFields(Exam exam) {
-        if (exam.isNullId()) {
+    private void validFields(ExamModel examModel) {
+        if (examModel.isNullId()) {
             throw new IdCantNullException();
         }
-        if (exam.isEmptyFields()) {
+        if (examModel.isEmptyFields()) {
             throw new CreateExamFieldEmptyException();
         }
     }

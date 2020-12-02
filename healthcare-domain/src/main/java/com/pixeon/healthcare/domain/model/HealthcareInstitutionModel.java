@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.domain.entity;
+package com.pixeon.healthcare.domain.model;
 
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.ValidateCNPJ;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @Builder
 @EqualsAndHashCode(of = "cnpj")
-public class HealthcareInstitution {
+public class HealthcareInstitutionModel {
 
     private int id;
     private String name;
@@ -21,11 +21,11 @@ public class HealthcareInstitution {
         this.setCoin(this.coin.subtract(value));
     }
 
-    public boolean examOwner(Exam exam) {
-        if (exam == null) {
+    public boolean examOwner(ExamModel examModel) {
+        if (examModel == null) {
             return false;
         }
-        return equals(exam.getHealthcareInstitution());
+        return equals(examModel.getHealthcareInstitutionModel());
     }
 
     public boolean isEmptyOrBlank() {

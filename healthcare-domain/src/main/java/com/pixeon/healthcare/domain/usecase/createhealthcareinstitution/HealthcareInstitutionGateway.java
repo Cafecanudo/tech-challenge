@@ -1,14 +1,14 @@
 package com.pixeon.healthcare.domain.usecase.createhealthcareinstitution;
 
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 
 public interface HealthcareInstitutionGateway {
 
-    HealthcareInstitution save(HealthcareInstitution healthcareInstitution);
+    HealthcareInstitutionModel save(HealthcareInstitutionModel healthcareInstitutionModel);
 
-    HealthcareInstitution getCurrentInstitution();
+    HealthcareInstitutionModel getCurrentInstitution();
 
-    HealthcareInstitution getInstitutionForExamBy(Integer examId);
+    HealthcareInstitutionModel getInstitutionForExamBy(Integer examId);
 
-    void update(HealthcareInstitution institution);
+    void update(HealthcareInstitutionModel institution);
 }

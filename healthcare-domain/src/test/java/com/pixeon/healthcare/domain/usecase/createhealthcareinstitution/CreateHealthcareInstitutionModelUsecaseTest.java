@@ -3,7 +3,7 @@ package com.pixeon.healthcare.domain.usecase.createhealthcareinstitution;
 import com.pixeon.healthcare.domain.config.exception.CNPJEmptyException;
 import com.pixeon.healthcare.domain.config.exception.CNPJInvalidException;
 import com.pixeon.healthcare.domain.config.exception.NameCantEmptyException;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.impl.CreateHealthcareInstitutionUsecaseImpl;
 import com.pixeon.healthcare.domain.usecase.getvalueconfigapplication.ApplicationConfigGateway;
 import org.junit.Before;
@@ -19,7 +19,7 @@ import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-public class CreateHealthcareInstitutionUsecaseTest {
+public class CreateHealthcareInstitutionModelUsecaseTest {
 
     public static final double VALUE_FOR_NEW_INSTITUTION = 20;
     @Mock
@@ -33,8 +33,8 @@ public class CreateHealthcareInstitutionUsecaseTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.createHealthcareInstitutionUsecase = new CreateHealthcareInstitutionUsecaseImpl(applicationConfigGateway, institutionService);
-        when(institutionService.save(any(HealthcareInstitution.class))).thenAnswer((Answer<HealthcareInstitution>) invocationOnMock -> {
-            HealthcareInstitution institution = invocationOnMock.getArgument(0);
+        when(institutionService.save(any(HealthcareInstitutionModel.class))).thenAnswer((Answer<HealthcareInstitutionModel>) invocationOnMock -> {
+            HealthcareInstitutionModel institution = invocationOnMock.getArgument(0);
             institution.setId(1);
             institution.setCoin(new BigDecimal(VALUE_FOR_NEW_INSTITUTION));
             return institution;
@@ -45,49 +45,49 @@ public class CreateHealthcareInstitutionUsecaseTest {
 
     @Test
     public void shouldCreateHealthcare() {
-        HealthcareInstitution healthcareInstitution = HealthcareInstitution.builder()
+        HealthcareInstitutionModel healthcareInstitutionModel = HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build();
 
-        healthcareInstitution = this.createHealthcareInstitutionUsecase.create(healthcareInstitution);
-        assertEquals(1, healthcareInstitution.getId());
-        assertEquals("Instituição de Saúde", healthcareInstitution.getName());
-        assertEquals("42.094.340/0001-79", healthcareInstitution.getCnpj());
-        assertEquals(20.0d, healthcareInstitution.getCoin().doubleValue(), 1);
+        healthcareInstitutionModel = this.createHealthcareInstitutionUsecase.create(healthcareInstitutionModel);
+        assertEquals(1, healthcareInstitutionModel.getId());
+        assertEquals("Instituição de Saúde", healthcareInstitutionModel.getName());
+        assertEquals("42.094.340/0001-79", healthcareInstitutionModel.getCnpj());
+        assertEquals(20.0d, healthcareInstitutionModel.getCoin().doubleValue(), 1);
     }
 
     @Test
     public void shouldThrowExceptionWhenCreateHealthcareWithNameEmpty() {
-        HealthcareInstitution healthcareInstitution = HealthcareInstitution.builder()
+        HealthcareInstitutionModel healthcareInstitutionModel = HealthcareInstitutionModel.builder()
                 .cnpj("42.094.340/0001-79")
                 .build();
 
         NameCantEmptyException exception = assertThrows(NameCantEmptyException.class,
-                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitution));
+                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitutionModel));
         assertEquals("Nome da instituição está em branco.", exception.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenCreateHealthcareWithCNPJEmpty() {
-        HealthcareInstitution healthcareInstitution = HealthcareInstitution.builder()
+        HealthcareInstitutionModel healthcareInstitutionModel = HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .build();
 
         CNPJEmptyException exception = assertThrows(CNPJEmptyException.class,
-                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitution));
+                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitutionModel));
         assertEquals("CNPJ da instituição está em branco!", exception.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenCreateHealthcareWithCNPJInvalid() {
-        HealthcareInstitution healthcareInstitution = HealthcareInstitution.builder()
+        HealthcareInstitutionModel healthcareInstitutionModel = HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("99.999.999/9999-99")
                 .build();
 
         CNPJInvalidException exception = assertThrows(CNPJInvalidException.class,
-                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitution));
+                () -> this.createHealthcareInstitutionUsecase.create(healthcareInstitutionModel));
 
         assertEquals("CNPJ da instituição é inválido!", exception.getMessage());
     }

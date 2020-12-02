@@ -4,8 +4,8 @@ import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.config.exception.ExamNotFoundException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionNotFoundException;
-import com.pixeon.healthcare.domain.entity.Exam;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.deleteexam.impl.DeleteExamImpl;
@@ -20,7 +20,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-public class DeleteExamTest {
+public class DeleteExamModelTest {
 
     private static final int EXAM_ID = 1;
     private DeleteExam deleteExam;
@@ -34,15 +34,15 @@ public class DeleteExamTest {
         MockitoAnnotations.openMocks(this);
         this.deleteExam = new DeleteExamImpl(institutionService, examGateway);
         when(examGateway.delete(any())).thenReturn(true);
-        when(institutionService.getCurrentInstitution()).thenReturn(HealthcareInstitution.builder()
+        when(institutionService.getCurrentInstitution()).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Hospital Infantil")
                 .cnpj("56.227.555/0001-25")
                 .build());
-        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitution.builder()
+        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("42.094.340/0001-79")
                 .build());
-        when(examGateway.getExameById(anyInt())).thenReturn(Exam.builder()
+        when(examGateway.getExameById(anyInt())).thenReturn(ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)
@@ -55,7 +55,7 @@ public class DeleteExamTest {
 
     @Test
     public void shouldDeleteExam() {
-        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitution.builder()
+        when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(HealthcareInstitutionModel.builder()
                 .name("Instituição de Saúde")
                 .cnpj("56.227.555/0001-25")
                 .build());
@@ -81,7 +81,7 @@ public class DeleteExamTest {
         when(institutionService.getCurrentInstitution()).thenReturn(null);
         when(institutionService.getInstitutionForExamBy(anyInt())).thenReturn(null);
 
-        when(examGateway.getExameById(anyInt())).thenReturn(Exam.builder()
+        when(examGateway.getExameById(anyInt())).thenReturn(ExamModel.builder()
                 .id(1)
                 .patientName("Wellton S. Barros")
                 .patientAge(35)

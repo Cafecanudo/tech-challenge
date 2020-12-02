@@ -1,9 +1,9 @@
 package com.pixeon.healthcare.domain.usecase.updateexam;
 
-import com.pixeon.healthcare.domain.entity.Exam;
+import com.pixeon.healthcare.domain.model.ExamModel;
 
 @FunctionalInterface
 public interface UpdateExam {
 
-    Exam update(Exam exam);
+    ExamModel update(ExamModel examModel);
 }

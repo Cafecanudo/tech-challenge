@@ -1,14 +1,14 @@
 package com.pixeon.healthcare.domain.usecase.createexam;
 
-import com.pixeon.healthcare.domain.entity.Exam;
+import com.pixeon.healthcare.domain.model.ExamModel;
 
 public interface ExamGateway {
 
-    Exam save(Exam exam);
+    ExamModel save(ExamModel examModel);
 
-    Exam update(Exam exam);
+    ExamModel update(ExamModel examModel);
 
-    boolean delete(Exam exam);
+    boolean delete(ExamModel examModel);
 
-    Exam getExameById(int examId);
+    ExamModel getExameById(int examId);
 }

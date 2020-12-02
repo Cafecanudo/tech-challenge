@@ -2,8 +2,8 @@ package com.pixeon.healthcare.domain.usecase.createexam.impl;
 
 import com.pixeon.healthcare.domain.config.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToCreateExamException;
-import com.pixeon.healthcare.domain.entity.Exam;
-import com.pixeon.healthcare.domain.entity.HealthcareInstitution;
+import com.pixeon.healthcare.domain.model.ExamModel;
+import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 import com.pixeon.healthcare.domain.usecase.createexam.CheckBalanceInstitution;
 import com.pixeon.healthcare.domain.usecase.createexam.CreateExamUsecase;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
@@ -25,34 +25,34 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
         this.applicationConfigGateway = applicationConfigGateway;
     }
 
-    public Exam create(Exam exam) {
+    public ExamModel create(ExamModel examModel) {
         BigDecimal valueCreateExam = applicationConfigGateway.getValueCreateExam();
-        HealthcareInstitution institution = healthcareInstitutionGateway.getCurrentInstitution();
-        exam.setHealthcareInstitution(institution);
+        HealthcareInstitutionModel institution = healthcareInstitutionGateway.getCurrentInstitution();
+        examModel.setHealthcareInstitutionModel(institution);
 
-        validExamField(exam);
+        validExamField(examModel);
         checkIfInstitutionHaveEnoughBalance(valueCreateExam, institution);
         chargeValueForConsultingExam(valueCreateExam, institution);
-        updateInstitutionAfterConsultingExam(institution, exam);
+        updateInstitutionAfterConsultingExam(institution, examModel);
 
-        return examGateway.save(exam);
+        return examGateway.save(examModel);
     }
 
-    private void validExamField(Exam exam) {
-        if (exam.isEmptyFields()) {
+    private void validExamField(ExamModel examModel) {
+        if (examModel.isEmptyFields()) {
             throw new CreateExamFieldEmptyException();
         }
     }
 
-    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueCreateExam, HealthcareInstitution currentInstitution) {
+    private void checkIfInstitutionHaveEnoughBalance(BigDecimal valueCreateExam, HealthcareInstitutionModel currentInstitution) {
         new CheckBalanceInstitution<>(new NoBalanceToCreateExamException()).check(currentInstitution, valueCreateExam);
     }
 
-    private void updateInstitutionAfterConsultingExam(HealthcareInstitution institution, Exam exam) {
+    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionModel institution, ExamModel examModel) {
         healthcareInstitutionGateway.update(institution);
     }
 
-    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitution institution) {
+    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitutionModel institution) {
         institution.subtractCoins(valueCreateExam);
     }
 

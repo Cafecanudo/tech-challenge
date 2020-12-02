@@ -1,9 +1,9 @@
 package com.pixeon.healthcare.domain.usecase.getExamById;
 
-import com.pixeon.healthcare.domain.entity.Exam;
+import com.pixeon.healthcare.domain.model.ExamModel;
 
 @FunctionalInterface
 public interface GetExamById {
 
-    Exam get(int examId);
+    ExamModel get(int examId);
 }

@@ -1,10 +1,10 @@
 package com.pixeon.healthcare.domain.usecase.createexam;
 
-import com.pixeon.healthcare.domain.entity.Exam;
+import com.pixeon.healthcare.domain.model.ExamModel;
 
 @FunctionalInterface
 public interface CreateExamUsecase {
 
-    Exam create(Exam exam);
+    ExamModel create(ExamModel examModel);
 
 }
