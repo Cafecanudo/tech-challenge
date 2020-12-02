@@ -33,6 +33,10 @@ Textos redigidos com teclado padrão En-us.
    
  (Segunda 16 de Novembro de 2020) Start 18:37, End 19:38 
   - `Criando serviço que fornece informações de configuração do sistema`
+  
+ (Segunda 01 de Dezembro de 2020) Start 18:05, End 19:13 
+  - `Refatorando healthcare-core, modelando dominio de forma mais clara, se seguindo clean architecture`
+ 
  
 
   
