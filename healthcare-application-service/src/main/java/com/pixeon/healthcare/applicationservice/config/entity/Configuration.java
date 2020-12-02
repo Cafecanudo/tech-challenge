@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.applicationservice.config.repository.entity;
+package com.pixeon.healthcare.applicationservice.config.entity;
 
 import lombok.Data;
 
