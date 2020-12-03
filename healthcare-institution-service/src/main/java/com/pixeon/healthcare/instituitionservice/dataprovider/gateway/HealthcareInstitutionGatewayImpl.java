@@ -26,19 +26,4 @@ public class HealthcareInstitutionGatewayImpl implements HealthcareInstitutionGa
             throw new AlreadyExistsCNPJException();
         }
     }
-
-    @Override
-    public HealthcareInstitutionModel getCurrentInstitution() {
-        return null;
-    }
-
-    @Override
-    public HealthcareInstitutionModel getInstitutionForExamBy(Integer examId) {
-        return null;
-    }
-
-    @Override
-    public void update(HealthcareInstitutionModel institution) {
-
-    }
 }

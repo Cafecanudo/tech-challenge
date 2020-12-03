@@ -15,10 +15,10 @@ public class SwaggerApiConfig {
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.pixeon.healthcare.usecase"))
+                .apis(RequestHandlerSelectors.basePackage("com.pixeon.healthcare.instituitionservice.entrypoint.rest"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(new ApiInfoBuilder().version("1.0")
-                        .title("Serviço de configurações").description("Serviço fornece dados de configurações de aplicação").build());
+                        .title("Serviços de Instituição de Saúde").description("Serviços fornecem informações sobre a instituição de saúde").build());
     }
 }
