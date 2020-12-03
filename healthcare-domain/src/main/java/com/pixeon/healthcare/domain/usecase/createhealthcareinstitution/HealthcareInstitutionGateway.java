@@ -1,14 +1,27 @@
 package com.pixeon.healthcare.domain.usecase.createhealthcareinstitution;
 
+import com.pixeon.healthcare.domain.model.CoinModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
 
 public interface HealthcareInstitutionGateway {
 
-    HealthcareInstitutionModel save(HealthcareInstitutionModel healthcareInstitutionModel);
+    default HealthcareInstitutionModel save(HealthcareInstitutionModel healthcareInstitutionModel) {
+        throw new RuntimeException("Not implemented");
+    }
 
-    HealthcareInstitutionModel getCurrentInstitution();
+    default HealthcareInstitutionModel getCurrentInstitution() {
+        throw new RuntimeException("Not implemented");
+    }
 
-    HealthcareInstitutionModel getInstitutionForExamBy(Integer examId);
+    default HealthcareInstitutionModel getInstitutionForExamBy(Integer examId) {
+        throw new RuntimeException("Not implemented");
+    }
 
-    void update(HealthcareInstitutionModel institution);
+    default void updateBalance(HealthcareInstitutionModel institution, CoinModel coin) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    default HealthcareInstitutionModel getInstitutionById(Integer healthcareInstituitionId) {
+        throw new RuntimeException("Not implemented");
+    }
 }

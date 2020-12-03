@@ -2,8 +2,10 @@ package com.pixeon.healthcare.domain.usecase.getExamById.impl;
 
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToConsultingExamException;
+import com.pixeon.healthcare.domain.model.CoinModel;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.OperationEnum;
 import com.pixeon.healthcare.domain.usecase.createexam.CheckBalanceInstitution;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
@@ -11,6 +13,7 @@ import com.pixeon.healthcare.domain.usecase.getExamById.GetExamById;
 import com.pixeon.healthcare.domain.usecase.getvalueconfigapplication.ApplicationConfigGateway;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class GetExamByIdImpl implements GetExamById {
 
@@ -30,17 +33,18 @@ public class GetExamByIdImpl implements GetExamById {
 
         ExamModel examModel = examGateway.getExameById(examId);
         chargeCaseFirstTime(valueForConsultingExam, currentInstitution, examModel);
-        examModel.setHealthcareInstitutionModel(currentInstitution);
+
+        examModel.setHealthcareInstitution(currentInstitution);
         examModel.setBilled(true);
         return examModel;
     }
 
     private void chargeCaseFirstTime(BigDecimal valueForConsultingExam, HealthcareInstitutionModel currentInstitution, ExamModel examModel) {
         if (!examModel.alreadyBeenCharged()) {
-            checkIfInstitutionOwnsExam(currentInstitution, examModel.getHealthcareInstitutionModel());
+            checkIfInstitutionOwnsExam(currentInstitution, examModel.getHealthcareInstitution());
             checkIfInstitutionHaveEnoughBalance(valueForConsultingExam, currentInstitution);
-            chargeValueForConsultingExam(valueForConsultingExam, currentInstitution);
-            updateInstitutionAfterConsultingExam(currentInstitution, examModel);
+            CoinModel newBalance = chargeValueForConsultingExam(valueForConsultingExam, currentInstitution);
+            updateInstitutionAfterConsultingExam(currentInstitution, newBalance);
         }
     }
 
@@ -54,12 +58,18 @@ public class GetExamByIdImpl implements GetExamById {
         new CheckBalanceInstitution<>(new NoBalanceToConsultingExamException()).check(currentInstitution, valueForConsultingExam);
     }
 
-    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionModel institution, ExamModel examModel) {
-        healthcareInstitutionGateway.update(institution);
+    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionModel institution, CoinModel coinModel) {
+        institution.setCoin(coinModel.getNewBalance());
+        healthcareInstitutionGateway.updateBalance(institution, coinModel);
     }
 
-    private void chargeValueForConsultingExam(BigDecimal valueForConsultingExam, HealthcareInstitutionModel institution) {
-        institution.subtractCoins(valueForConsultingExam);
+    private CoinModel chargeValueForConsultingExam(BigDecimal valueForConsultingExam, HealthcareInstitutionModel institution) {
+        return CoinModel.builder()
+                .dateOperation(new Date())
+                .currentBalance(institution.getCoin())
+                .newBalance(institution.subtractCoins(valueForConsultingExam))
+                .operation(OperationEnum.DEBIT)
+                .build();
     }
 
 }

@@ -1,11 +1,11 @@
 package com.pixeon.healthcare.domain.usecase.deleteexam;
 
-import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.config.exception.ExamNotFoundException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.InstitutionNotFoundException;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.GenderEnum;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.deleteexam.impl.DeleteExamImpl;

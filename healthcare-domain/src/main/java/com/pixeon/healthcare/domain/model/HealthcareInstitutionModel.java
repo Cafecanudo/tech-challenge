@@ -6,26 +6,28 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
 @EqualsAndHashCode(of = "cnpj")
 public class HealthcareInstitutionModel {
 
-    private int id;
+    private Integer id;
     private String name;
     private String cnpj;
     private BigDecimal coin;
+    private List<CoinModel> coins;
 
-    public void subtractCoins(BigDecimal value) {
-        this.setCoin(this.coin.subtract(value));
+    public BigDecimal subtractCoins(BigDecimal value) {
+        return this.coin.subtract(value);
     }
 
     public boolean examOwner(ExamModel examModel) {
         if (examModel == null) {
             return false;
         }
-        return equals(examModel.getHealthcareInstitutionModel());
+        return equals(examModel.getHealthcareInstitution());
     }
 
     public boolean isEmptyOrBlank() {
