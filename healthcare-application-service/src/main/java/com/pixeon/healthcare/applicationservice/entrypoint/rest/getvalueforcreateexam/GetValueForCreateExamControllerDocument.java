@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvalueforcreateexam;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
                 @ApiResponse(code = 409, message = "Registro duplicado"),
         }
 )
-public interface GetValueForNewHealthcareInstitutionControllerDocument {
+public interface GetValueForCreateExamControllerDocument {
 
-    @ApiOperation(value = "Obter valor para criação de uma nova Instituição de saúde", response = ValueForNewHealthcareInstitutionDTO.class)
-    ResponseEntity<ValueForNewHealthcareInstitutionDTO> get();
+    @ApiOperation(value = "Obter valor para criação de um novo exame para a instituição de saúde", response = ValueForCreateExamDTO.class)
+    ResponseEntity<ValueForCreateExamDTO> get();
 }

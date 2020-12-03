@@ -15,7 +15,7 @@ public class SwaggerApiConfig {
     public Docket swaggerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.pixeon.healthcare.usecase"))
+                .apis(RequestHandlerSelectors.basePackage("com.pixeon.healthcare.applicationservice.entrypoint.rest"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(new ApiInfoBuilder().version("1.0")

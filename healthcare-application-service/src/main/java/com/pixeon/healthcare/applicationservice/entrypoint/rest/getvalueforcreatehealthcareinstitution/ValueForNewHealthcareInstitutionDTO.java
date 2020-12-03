@@ -1,4 +1,4 @@
-package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvaluefornewhealthcareinstitution;
+package com.pixeon.healthcare.applicationservice.entrypoint.rest.getvalueforcreatehealthcareinstitution;
 
 import lombok.Builder;
 import lombok.Data;
