@@ -32,7 +32,7 @@ public class GetValueForCreateExamControllerTest {
         when(getValueForCreateExamPresenter.get())
                 .thenReturn(ValueForCreateExamDTO.builder().value(new BigDecimal(20.0)).build());
 
-        this.mockMvc.perform(get("/valueForNewExam"))
+        this.mockMvc.perform(get("/valueForCreateExam"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.value").exists())
                 .andExpect(jsonPath("$.value").value(20));

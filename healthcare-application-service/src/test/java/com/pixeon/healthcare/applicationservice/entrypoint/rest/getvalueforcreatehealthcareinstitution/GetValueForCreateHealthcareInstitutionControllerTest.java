@@ -32,7 +32,7 @@ public class GetValueForCreateHealthcareInstitutionControllerTest {
         when(getValueForCreateHealthcareInstitutionPresenter.get())
                 .thenReturn(ValueForNewHealthcareInstitutionDTO.builder().value(new BigDecimal(20.0)).build());
 
-        this.mockMvc.perform(get("/valueForNewHealthcareInstitution"))
+        this.mockMvc.perform(get("/valueForCreateHealthcareInstitution"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.value").exists())
                 .andExpect(jsonPath("$.value").value(20));
