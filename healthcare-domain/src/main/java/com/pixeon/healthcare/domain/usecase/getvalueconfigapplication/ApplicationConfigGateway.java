@@ -4,9 +4,15 @@ import java.math.BigDecimal;
 
 public interface ApplicationConfigGateway {
 
-    BigDecimal getValueCreateExam();
+    default BigDecimal getValueCreateExam() {
+        throw new RuntimeException("Not implemented");
+    }
 
-    BigDecimal getValueForNewHealthcareInstitution();
+    default BigDecimal getValueForNewHealthcareInstitution() {
+        throw new RuntimeException("Not implemented");
+    }
 
-    BigDecimal getValueForConsultingExam();
+    default BigDecimal getValueForConsultingExam() {
+        throw new RuntimeException("Not implemented");
+    }
 }

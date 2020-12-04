@@ -51,7 +51,7 @@ public class CreateHealthcareInstitutionModelUsecaseTest {
                 .build();
 
         healthcareInstitutionModel = this.createHealthcareInstitutionUsecase.create(healthcareInstitutionModel);
-        assertEquals(1, healthcareInstitutionModel.getId());
+        assertEquals(1, healthcareInstitutionModel.getId().intValue());
         assertEquals("Instituição de Saúde", healthcareInstitutionModel.getName());
         assertEquals("42.094.340/0001-79", healthcareInstitutionModel.getCnpj());
         assertEquals(20.0d, healthcareInstitutionModel.getCoin().doubleValue(), 1);

@@ -1,10 +1,10 @@
 package com.pixeon.healthcare.domain.usecase.createexam;
 
-import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.config.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToCreateExamException;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.GenderEnum;
 import com.pixeon.healthcare.domain.usecase.createexam.impl.CreateExamUsecaseImpl;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.getvalueconfigapplication.ApplicationConfigGateway;
@@ -63,7 +63,7 @@ public class CreateExamModelUsecaseTest {
 
         examModel = this.createExamUsecase.create(examModel);
         assertEquals(1, examModel.getId(), 0.1);
-        assertEquals(17.58, examModel.getHealthcareInstitutionModel().getCoin().doubleValue(), 0.1);
+        assertEquals(17.58, examModel.getHealthcareInstitution().getCoin().doubleValue(), 0.1);
     }
 
     @Test
@@ -131,6 +131,6 @@ public class CreateExamModelUsecaseTest {
                 .build();
 
         this.createExamUsecase.create(examModel);
-        verify(institutionService, times(1)).update(any());
+        verify(institutionService, times(1)).updateBalance(any(), any());
     }
 }
