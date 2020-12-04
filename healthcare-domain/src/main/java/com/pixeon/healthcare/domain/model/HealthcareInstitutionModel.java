@@ -19,6 +19,10 @@ public class HealthcareInstitutionModel {
     private BigDecimal coin;
     private List<CoinModel> coins;
 
+    public BigDecimal additionsCoins(BigDecimal value) {
+        return this.coin.add(value);
+    }
+
     public BigDecimal subtractCoins(BigDecimal value) {
         return this.coin.subtract(value);
     }

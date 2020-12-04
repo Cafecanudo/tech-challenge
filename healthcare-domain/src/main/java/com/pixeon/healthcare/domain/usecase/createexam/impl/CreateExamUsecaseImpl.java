@@ -29,6 +29,8 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
     }
 
     public ExamModel create(ExamModel examModel) {
+        cleanField(examModel);
+
         BigDecimal valueCreateExam = applicationConfigGateway.getValueCreateExam();
         HealthcareInstitutionModel institution = healthcareInstitutionGateway.getCurrentInstitution();
         examModel.setHealthcareInstitution(institution);
@@ -39,6 +41,11 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
         updateBalanceInstitutionAfterConsultingExam(institution, newBalance);
 
         return examGateway.save(examModel);
+    }
+
+    private void cleanField(ExamModel examModel) {
+        examModel.setId(null);
+        examModel.setBilled(false);
     }
 
     private void validExamField(ExamModel examModel) {
@@ -62,7 +69,7 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
                 .currentBalance(institution.getCoin())
                 .newBalance(institution.subtractCoins(valueCreateExam))
                 .operation(OperationEnum.DEBIT)
+                .valueOperation(valueCreateExam)
                 .build();
     }
-
 }

@@ -15,5 +15,7 @@ public class CoinModel {
     private BigDecimal currentBalance;
     private BigDecimal newBalance;
     private OperationEnum operation;
+    private BigDecimal valueOperation;
     private Date dateOperation;
+    private HealthcareInstitutionModel healthcareInstitution;
 }
