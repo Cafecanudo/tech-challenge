@@ -24,6 +24,10 @@ public class Coin {
     private BigDecimal newBalance;
     @Enumerated(EnumType.STRING)
     private OperationEnum operation;
+    private BigDecimal valueOperation;
     private Date dateOperation;
+    @ManyToOne
+    @JoinColumn(name = "healthcare_institution_id", nullable = false)
+    private HealthcareInstitution healthcareInstitution;
 
 }

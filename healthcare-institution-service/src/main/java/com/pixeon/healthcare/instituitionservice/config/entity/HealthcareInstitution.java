@@ -23,8 +23,7 @@ public class HealthcareInstitution {
     @Column(unique = true)
     private String cnpj;
     private BigDecimal coin;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "healthcare_institution_id")
+    @OneToMany(mappedBy = "healthcareInstitution")
     private List<Coin> coins;
 
 }

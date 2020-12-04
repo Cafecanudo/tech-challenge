@@ -1,0 +1,10 @@
+package com.pixeon.healthcare.instituitionservice.dataprovider.repository;
+
+import com.pixeon.healthcare.instituitionservice.config.entity.Coin;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface CoinRepository extends CrudRepository<Coin, Integer> {
+
+}
