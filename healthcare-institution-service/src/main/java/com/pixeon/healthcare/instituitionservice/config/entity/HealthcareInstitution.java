@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,5 +23,7 @@ public class HealthcareInstitution {
     @Column(unique = true)
     private String cnpj;
     private BigDecimal coin;
+    @OneToMany(mappedBy = "healthcareInstitution")
+    private List<Coin> coins;
 
 }

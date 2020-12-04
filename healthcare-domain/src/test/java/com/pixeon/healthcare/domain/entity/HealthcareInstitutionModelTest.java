@@ -1,8 +1,8 @@
 package com.pixeon.healthcare.domain.entity;
 
-import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.GenderEnum;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertFalse;
@@ -60,7 +60,7 @@ public class HealthcareInstitutionModelTest {
                 .physicianName("Laiane Carvalho de Oliveira")
                 .physicianCRM(981651)
                 .procedureName("Mentoplastia")
-                .healthcareInstitutionModel(HealthcareInstitutionModel.builder()
+                .healthcareInstitution(HealthcareInstitutionModel.builder()
                         .name("Instituição de Saúde")
                         .cnpj("56.227.555/0001-25")
                         .build())

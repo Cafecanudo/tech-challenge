@@ -1,6 +1,6 @@
 package com.pixeon.healthcare.domain.model;
 
-import com.pixeon.healthcare.domain.config.enums.GenderEnum;
+import com.pixeon.healthcare.domain.model.enums.GenderEnum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 public class ExamModel {
 
     private Integer id;
-    private HealthcareInstitutionModel healthcareInstitutionModel;
+    private HealthcareInstitutionModel healthcareInstitution;
     private String patientName;
     private Integer patientAge;
     private GenderEnum patientGender;

@@ -4,11 +4,19 @@ import com.pixeon.healthcare.domain.model.ExamModel;
 
 public interface ExamGateway {
 
-    ExamModel save(ExamModel examModel);
+    default ExamModel save(ExamModel examModel) {
+        throw new RuntimeException("Not implemented");
+    }
 
-    ExamModel update(ExamModel examModel);
+    default ExamModel update(ExamModel examModel) {
+        throw new RuntimeException("Not implemented");
+    }
 
-    boolean delete(ExamModel examModel);
+    default boolean delete(ExamModel examModel) {
+        throw new RuntimeException("Not implemented");
+    }
 
-    ExamModel getExameById(int examId);
+    default ExamModel getExameById(int examId) {
+        throw new RuntimeException("Not implemented");
+    }
 }

@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Api(tags = "Informações/ações para Instituição de saúde")
 @ApiResponses(
@@ -21,6 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface CreateHealthcareInstitutionControllerDocument {
 
     @ApiOperation(value = "Salva uma nova instituição de saúde", response = HealthcareInstitutionDTO.class)
-    ResponseEntity<HealthcareInstitutionDTO> create(@RequestBody HealthcareInstitutionDTO healthcareInstitutionDTO);
+    ResponseEntity<HealthcareInstitutionDTO> create(HealthcareInstitutionDTO healthcareInstitutionDTO);
 
 }

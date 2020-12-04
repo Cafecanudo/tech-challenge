@@ -2,8 +2,10 @@ package com.pixeon.healthcare.domain.usecase.createexam.impl;
 
 import com.pixeon.healthcare.domain.config.exception.CreateExamFieldEmptyException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToCreateExamException;
+import com.pixeon.healthcare.domain.model.CoinModel;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.OperationEnum;
 import com.pixeon.healthcare.domain.usecase.createexam.CheckBalanceInstitution;
 import com.pixeon.healthcare.domain.usecase.createexam.CreateExamUsecase;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
@@ -11,6 +13,7 @@ import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.Healthca
 import com.pixeon.healthcare.domain.usecase.getvalueconfigapplication.ApplicationConfigGateway;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class CreateExamUsecaseImpl implements CreateExamUsecase {
 
@@ -26,16 +29,23 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
     }
 
     public ExamModel create(ExamModel examModel) {
+        cleanField(examModel);
+
         BigDecimal valueCreateExam = applicationConfigGateway.getValueCreateExam();
         HealthcareInstitutionModel institution = healthcareInstitutionGateway.getCurrentInstitution();
-        examModel.setHealthcareInstitutionModel(institution);
+        examModel.setHealthcareInstitution(institution);
 
         validExamField(examModel);
         checkIfInstitutionHaveEnoughBalance(valueCreateExam, institution);
-        chargeValueForConsultingExam(valueCreateExam, institution);
-        updateInstitutionAfterConsultingExam(institution, examModel);
+        CoinModel newBalance = chargeValueForConsultingExam(valueCreateExam, institution);
+        updateBalanceInstitutionAfterConsultingExam(institution, newBalance);
 
         return examGateway.save(examModel);
+    }
+
+    private void cleanField(ExamModel examModel) {
+        examModel.setId(null);
+        examModel.setBilled(false);
     }
 
     private void validExamField(ExamModel examModel) {
@@ -48,12 +58,18 @@ public class CreateExamUsecaseImpl implements CreateExamUsecase {
         new CheckBalanceInstitution<>(new NoBalanceToCreateExamException()).check(currentInstitution, valueCreateExam);
     }
 
-    private void updateInstitutionAfterConsultingExam(HealthcareInstitutionModel institution, ExamModel examModel) {
-        healthcareInstitutionGateway.update(institution);
+    private void updateBalanceInstitutionAfterConsultingExam(HealthcareInstitutionModel institution, CoinModel coinModel) {
+        institution.setCoin(coinModel.getNewBalance());
+        healthcareInstitutionGateway.updateBalance(institution, coinModel);
     }
 
-    private void chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitutionModel institution) {
-        institution.subtractCoins(valueCreateExam);
+    private CoinModel chargeValueForConsultingExam(BigDecimal valueCreateExam, HealthcareInstitutionModel institution) {
+        return CoinModel.builder()
+                .dateOperation(new Date())
+                .currentBalance(institution.getCoin())
+                .newBalance(institution.subtractCoins(valueCreateExam))
+                .operation(OperationEnum.DEBIT)
+                .valueOperation(valueCreateExam)
+                .build();
     }
-
 }

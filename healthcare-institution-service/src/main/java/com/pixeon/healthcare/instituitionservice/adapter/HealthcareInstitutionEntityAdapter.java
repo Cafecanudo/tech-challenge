@@ -17,6 +17,7 @@ public class HealthcareInstitutionEntityAdapter {
 
     public static HealthcareInstitutionModel toModel(HealthcareInstitution healthcareInstitution) {
         return HealthcareInstitutionModel.builder()
+                .id(healthcareInstitution.getId())
                 .name(healthcareInstitution.getName())
                 .cnpj(healthcareInstitution.getCnpj())
                 .coin(healthcareInstitution.getCoin())

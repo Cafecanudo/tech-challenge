@@ -60,7 +60,7 @@ public class CreateHealthcareInstitutionControllerTest {
 
         String json = "{ \"name\":\"Instituição de saúde Maternal\", \"cnpj\":\"06.476.077/0001-56\" }";
         this.mockMvc.perform(post("/createHealthcareInstitution").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").exists())
                 .andExpect(jsonPath("$.cause").exists())
                 .andExpect(jsonPath("$.message").value("CNPJ da instituição é inválido!"))

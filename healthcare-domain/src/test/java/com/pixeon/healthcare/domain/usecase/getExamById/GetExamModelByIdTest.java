@@ -1,10 +1,10 @@
 package com.pixeon.healthcare.domain.usecase.getExamById;
 
-import com.pixeon.healthcare.domain.config.enums.GenderEnum;
 import com.pixeon.healthcare.domain.config.exception.InstitutionDoesNotOwnExamException;
 import com.pixeon.healthcare.domain.config.exception.NoBalanceToConsultingExamException;
 import com.pixeon.healthcare.domain.model.ExamModel;
 import com.pixeon.healthcare.domain.model.HealthcareInstitutionModel;
+import com.pixeon.healthcare.domain.model.enums.GenderEnum;
 import com.pixeon.healthcare.domain.usecase.createexam.ExamGateway;
 import com.pixeon.healthcare.domain.usecase.createhealthcareinstitution.HealthcareInstitutionGateway;
 import com.pixeon.healthcare.domain.usecase.getExamById.impl.GetExamByIdImpl;
@@ -94,7 +94,7 @@ public class GetExamModelByIdTest {
         when(examGateway.getExameById(anyInt())).thenReturn(exam);
 
         ExamModel examModel = this.getExamById.get(EXAM_ID);
-        assertEquals(11.00, examModel.getHealthcareInstitutionModel().getCoin().doubleValue(), 0.1);
+        assertEquals(11.00, examModel.getHealthcareInstitution().getCoin().doubleValue(), 0.1);
     }
 
     @Test
@@ -110,13 +110,13 @@ public class GetExamModelByIdTest {
         when(examGateway.getExameById(anyInt())).thenReturn(exam);
 
         ExamModel examModel = this.getExamById.get(EXAM_ID);
-        assertEquals(15.78, examModel.getHealthcareInstitutionModel().getCoin().doubleValue(), 0.1);
+        assertEquals(15.78, examModel.getHealthcareInstitution().getCoin().doubleValue(), 0.1);
     }
 
     @Test
     public void verifyIfUpdateIsCallingWhenConsultingExam() {
         this.getExamById.get(EXAM_ID);
-        verify(healthcareInstitutionGateway, times(1)).update(any());
+        verify(healthcareInstitutionGateway, times(1)).updateBalance(any(), any());
     }
 
     private ExamModel createExam() {
@@ -128,7 +128,7 @@ public class GetExamModelByIdTest {
                 .physicianName("Laiane Carvalho de Oliveira")
                 .physicianCRM(981651)
                 .procedureName("Mentoplastia")
-                .healthcareInstitutionModel(createInstitution())
+                .healthcareInstitution(createInstitution())
                 .build();
     }
 
